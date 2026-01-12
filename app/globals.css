@@ -1,8 +1,14 @@
 @import "tailwindcss";
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ark-teal: #05B6BC;
+  --ark-dark: #0A1F24;
 }
 
 @theme inline {
@@ -20,7 +26,72 @@
 }
 
 body {
-  background: var(--background);
+  /* Remove background override for landing page */
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.App {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.landing-page {
+  background-color: #02b4bf;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.landing-page.fade-out {
+  animation: fadeOut 0.5s ease-in-out forwards;
+}
+
+.landing-logo {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+.home-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.home-page h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.home-page p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-top: 10px;
+}
+.hero-section {
+  background-color: var(--ark-teal);
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  min-height: 100vh;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
