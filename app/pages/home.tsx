@@ -77,9 +77,8 @@ export default function HomePage() {
             />
 
             <h1 className="heading">
-              Connecting Talent.
-              <br />
-              Empowering Business.
+              <span className="heading-line">Connecting Talent.</span>
+              <span className="heading-line">Empowering Business.</span>
             </h1>
 
             <p className="description">

@@ -36,7 +36,7 @@
   grid-template-columns: 1fr 1fr;
   min-height: 100vh;
   z-index: 10;
-  padding-top: -2rem;
+  padding-top: 0;
 }
 
 /* LEFT */
@@ -56,11 +56,18 @@
 
 .heading {
   font-size: 3.4rem;
-  font-weight: 700;
+  font-weight: 750;
   line-height: 1.15;
+  font-family: 'arial', sans-serif;
   margin-bottom: 10px;
   margin-top: -40px;
   max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+}
+
+.heading-line {
+  display: block;
 }
 
 .description {

@@ -1,21 +1,35 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import "@/app/styles/navbar.css";
+
+const navItems = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "Contact us", href: "/contact" },
+];
 
 export default function Navbar() {
-  return (
-    <nav className="absolute top-0 left-0 w-full z-50 px-16 py-6 flex justify-between items-center text-white">
-      <div className="font-bold text-lg">ARK</div>
+  const pathname = usePathname();
 
-      <ul className="flex gap-10 text-sm font-medium">
-        {["Home", "About Us", "Services", "Contact Us"].map((item) => (
-          <li key={item} className="relative group">
-            <Link href="#">
-              {item}
-              <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-white transition-all group-hover:w-full"></span>
-            </Link>
-          </li>
-        ))}
+  return (
+    <nav className="navbar">
+      <ul className="navbarLinks">
+        {navItems.map((item) => {
+          const isActive = pathname === item.href;
+          return (
+            <li key={item.href}>
+              <Link 
+                href={item.href} 
+                className={`navbarLink ${isActive ? 'active' : ''}`}
+              >
+                {item.label}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

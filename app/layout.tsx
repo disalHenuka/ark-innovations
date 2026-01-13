@@ -1,7 +1,7 @@
 import "./globals.css";
 import Navbar from "@/app/components/Navbar";
 import Footer from "@/app/components/Footer";
-
+  
 export const metadata = {
   title: "Ark Innovations (Pvt) Ltd",
   description: "Manpower and Recruitment Solutions",
