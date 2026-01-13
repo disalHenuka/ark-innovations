@@ -71,8 +71,8 @@ export default function HomePage() {
             <Image
               src="/assets/logo.png"
               alt="Ark Innovations Logo"
-              width={130}
-              height={130}
+              width={200}
+              height={200}
               className="logo"
             />
 
