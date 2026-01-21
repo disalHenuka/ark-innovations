@@ -149,22 +149,23 @@ export default function ServicesPage() {
 
       {/* Main Content */}
       <div className="services-container">
-        {/* Header Section */}
-        <div className="services-header">
-          <h2 className="services-subtitle">OUR</h2>
-          <h1 className="services-title">SERVICES</h1>
-          <h3 className="services-headline">
-            Strengthen Your Operations With Proven Experts
-          </h3>
-        </div>
+        {/* Top Split Section */}
+        <div className="services-top">
+          <div className="services-header">
+            <h2 className="services-subtitle">OUR</h2>
+            <h1 className="services-title">SERVICES</h1>
+            <h3 className="services-headline">
+              Strengthen Your Operations With Proven Experts
+            </h3>
+          </div>
 
-        {/* Intro Text */}
-        <div className="intro-text">
-          <p>
-            From executive search to large scale manpower supply, Ark
-            Innovations (Pvt) Ltd provides the strategic staffing and dedicated
-            outsourcing services required to maintain your competitive edge.
-          </p>
+          <div className="intro-text">
+            <p>
+              From executive search to large scale manpower supply, Ark
+              Innovations (Pvt) Ltd provides the strategic staffing and dedicated
+              outsourcing services required to maintain your competitive edge.
+            </p>
+          </div>
         </div>
 
         {/* Service 1: Recruitment & Talent Acquisition */}
@@ -215,7 +216,7 @@ export default function ServicesPage() {
         <div className="service-section service-3">
           <div className="service-image-container left">
             <Image
-              src="/assets/service_1.jpg"
+              src="/assets/service_3.jpg"
               alt="Business Handshake"
               width={450}
               height={350}
