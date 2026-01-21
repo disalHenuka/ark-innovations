@@ -4,11 +4,11 @@
   right: 0;
   width: 100%;
   z-index: 50;
-  padding: 1.5rem 4rem;
+  padding: 1.5rem 3rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  animation: fadeIn 0.5s ease 3.8s forwards;
+  animation: fadeIn 0.5s ease 1.5s forwards;
   opacity: 0;
 }
 
@@ -35,7 +35,7 @@
 
 .navbarLinks {
   display: flex;
-  gap: 4.5rem;
+  gap: 3.8rem;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -43,8 +43,8 @@
 
 .navbarLink {
   color: #05B6BC;
-  font-size: 1rem;
-  font-weight: 550;
+  font-size: 0.9rem;
+  font-weight: 700;
   text-decoration: none;
   position: relative;
   transition: color 0.3s ease;

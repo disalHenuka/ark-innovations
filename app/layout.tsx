@@ -1,9 +1,8 @@
 import "./globals.css";
-import Navbar from "@/app/components/Navbar";
-import Footer from "@/app/components/Footer";
+import LayoutWrapper from "@/app/components/LayoutWrapper";
   
 export const metadata = {
-  title: "Ark Innovations (Pvt) Ltd",
+  title: "Ark Innovations",
   description: "Manpower and Recruitment Solutions",
 };
 
@@ -15,9 +14,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
-        <Navbar />
+        <LayoutWrapper>
         {children}
-        <Footer />
+        </LayoutWrapper>
       </body>
     </html>
   );

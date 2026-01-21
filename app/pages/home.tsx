@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { motion, easeOut } from "framer-motion";
+import Footer from "../components/Footer";
 import "@/app/styles/home.css";
 
 const fadeLeft = {
@@ -22,6 +23,15 @@ const fadeRight = {
   },
 };
 
+const fadeRightSkyline = {
+  hidden: { opacity: 0, x: 60 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 1.1, ease: easeOut, delay: 0.6 },
+  },
+};
+
 export default function HomePage() {
   return (
     <>      
@@ -30,16 +40,23 @@ export default function HomePage() {
         
         {/* SKYLINE - at the back */}
         <motion.div
-          animate={{ y: [0, -8, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          variants={fadeRightSkyline}
+          initial="hidden"
+          animate="visible"
           style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0 }}
         >
-          <Image
-            src="/assets/skyline.png"
-            alt="Industrial skyline"
-            fill
-            className="skyline"
-          />
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            style={{ width: "100%", height: "100%" }}
+          >
+            <Image
+              src="/assets/skyline.png"
+              alt="Industrial skyline"
+              fill
+              className="skyline"
+            />
+          </motion.div>
         </motion.div>
 
         {/* BLUE ROTATED BACKGROUND PNG - animates from left to right quickly */}
@@ -92,7 +109,8 @@ export default function HomePage() {
                 whileHover={{ scale: 1.05 }}
                 className="primaryButton"
               >
-                Get Started →
+                Get Started
+                <span className="buttonArrow"></span>
               </motion.button>
 
               <motion.button
@@ -110,17 +128,17 @@ export default function HomePage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="rightContent"
+            style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "45%", zIndex: 5 }}
           >
             <motion.div
-              animate={{ y: [0, -6, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              animate={{ y: [0, 6, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              style={{ position: "absolute", bottom: 0, right: 0, width: "100%", height: "90%" }}
             >
               <Image
                 src="/assets/worker.png"
                 alt="Industrial Worker"
-                width={600}
-                height={800}
+                fill
                 className="workerImage"
                 priority
               />
@@ -129,6 +147,15 @@ export default function HomePage() {
 
         </div>
       </section>
+
+      {/* FOOTER - appears after all components with fade-in */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: easeOut, delay: 1.4 }}
+      >
+        <Footer />
+      </motion.div>
     </>
   );
 }

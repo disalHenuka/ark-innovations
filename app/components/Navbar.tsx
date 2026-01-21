@@ -6,8 +6,9 @@ import "@/app/styles/navbar.css";
 
 const navItems = [
   { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
   { label: "Services", href: "/services" },
+  { label: "Industries", href: "/industries" },
+  { label: "About Us", href: "/about" },
   { label: "Contact us", href: "/contact" },
 ];
 
@@ -19,15 +20,15 @@ export default function Navbar() {
       <ul className="navbarLinks">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
-          return (
+  return (
             <li key={item.href}>
               <Link 
                 href={item.href} 
                 className={`navbarLink ${isActive ? 'active' : ''}`}
               >
                 {item.label}
-              </Link>
-            </li>
+            </Link>
+          </li>
           );
         })}
       </ul>
