@@ -1,7 +1,11 @@
 .footer {
-  background-color: #0A1F24;
   color: #d1d5db;
   padding: 3rem 4rem;
+  background-image: linear-gradient(rgba(10, 31, 36, 0.85), rgba(10, 31, 36, 0.85)), url('/assets/footer.jpg?v=1');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
 }
 
 .footerContent {
