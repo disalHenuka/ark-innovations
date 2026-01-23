@@ -1,5 +1,7 @@
 "use client";
+
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Script from "next/script";
 import Image from "next/image";
 import "@/app/styles/service.css";
@@ -11,145 +13,69 @@ declare global {
 }
 
 export default function ServicesPage() {
-  const finisherInstanceRef = useRef<any>(null);
-  const scriptLoadedRef = useRef(false);
+  const finisherRef = useRef<any>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
-    const initFinisher = () => {
-      const el = document.getElementsByClassName("finisher-header")?.[0] as HTMLElement | undefined;
-      if (!el) return;
+    if (!window.FinisherHeader) return;
 
-      // Remove existing canvas if present
-      const existing = el.querySelector("#finisher-canvas");
-      if (existing) existing.remove();
-
-      if (window.FinisherHeader && !finisherInstanceRef.current) {
-        try {
-          finisherInstanceRef.current = new window.FinisherHeader({
-            className: "finisher-header",
-            count: 14,
-            size: {
-              min: 37,
-              max: 391,
-              pulse: 0,
-            },
-            speed: {
-              x: {
-                min: 0.6,
-                max: 0.6,
-              },
-              y: {
-                min: 0.6,
-                max: 0.6,
-              },
-            },
-            colors: {
-              background: "#ffffff",
-              particles: ["#00959e"],
-            },
-            blending: "lighten",
-            opacity: {
-              center: 0.7,
-              edge: 1,
-            },
-            skew: 0,
-            shapes: ["c"],
-          });
-        } catch (error) {
-          console.error("Error initializing FinisherHeader:", error);
-        }
-      }
-    };
-
-    // If script is already loaded, initialize immediately
-    if (scriptLoadedRef.current && window.FinisherHeader) {
-      initFinisher();
-    }
-
-    // Initialize on window load as well (fallback)
-    const handleLoad = () => {
-      if (window.FinisherHeader) {
-        initFinisher();
-      }
-    };
-
-    window.addEventListener("load", handleLoad);
-
-    return () => {
-      window.removeEventListener("load", handleLoad);
-      // Cleanup on unmount
-      if (finisherInstanceRef.current) {
-        const el = document.getElementsByClassName("finisher-header")?.[0] as HTMLElement | undefined;
-        if (el) {
-          const canvas = el.querySelector("#finisher-canvas");
-          if (canvas) canvas.remove();
-        }
-        finisherInstanceRef.current = null;
-      }
-    };
-  }, []);
-
-  const handleScriptLoad = () => {
-    scriptLoadedRef.current = true;
-    const el = document.getElementsByClassName("finisher-header")?.[0] as HTMLElement | undefined;
+    const el = document.querySelector(".finisher-header") as HTMLElement | null;
     if (!el) return;
 
-    const existing = el.querySelector("#finisher-canvas");
-    if (existing) existing.remove();
+    // Always remove old canvas
+    const existingCanvas = el.querySelector("canvas");
+    if (existingCanvas) existingCanvas.remove();
 
-    if (window.FinisherHeader) {
-      try {
-        finisherInstanceRef.current = new window.FinisherHeader({
-          className: "finisher-header",
-          count: 14,
-          size: {
-            min: 37,
-            max: 391,
-            pulse: 0,
-          },
-          speed: {
-            x: {
-              min: 0.6,
-              max: 0.6,
-            },
-            y: {
-              min: 0.6,
-              max: 0.6,
-            },
-          },
-          colors: {
-            background: "#ffffff",
-            particles: ["#00959e"],
-          },
-          blending: "lighten",
-          opacity: {
-            center: 0.7,
-            edge: 1,
-          },
-          skew: 0,
-          shapes: ["c"],
-        });
-      } catch (error) {
-        console.error("Error initializing FinisherHeader:", error);
-      }
+    try {
+      finisherRef.current = new window.FinisherHeader({
+        className: "finisher-header",
+        count: 14,
+        size: {
+          min: 37,
+          max: 391,
+          pulse: 0,
+        },
+        speed: {
+          x: { min: 0.6, max: 0.6 },
+          y: { min: 0.6, max: 0.6 },
+        },
+        colors: {
+          background: "#ffffff",
+          particles: ["#000000"],
+        },
+        blending: "lighten",
+        opacity: {
+          center: 0.7,
+          edge: 1,
+        },
+        skew: 0,
+        shapes: ["c"],
+      });
+    } catch (err) {
+      console.error("FinisherHeader init failed:", err);
     }
-  };
+
+    // Cleanup on route leave
+    return () => {
+      const canvas = el.querySelector("canvas");
+      if (canvas) canvas.remove();
+      finisherRef.current = null;
+    };
+  }, [pathname]);
 
   return (
     <div className="services-page">
+      {/* Load script once */}
       <Script
         src="/finisher-header.es5.min.js"
         strategy="afterInteractive"
-        onLoad={handleScriptLoad}
-        id="finisher-header-script"
       />
 
-      {/* Animated Header Background */}
+      {/* Animated background */}
       <div className="finisher-header"></div>
 
-      {/* Main Content */}
+      {/* Content */}
       <div className="services-container">
-        {/* Top Split Section */}
         <div className="services-top">
           <div className="services-header">
             <h2 className="services-subtitle">OUR</h2>
@@ -182,10 +108,11 @@ export default function ServicesPage() {
           <div className="service-content right">
             <h4 className="service-heading">Recruitment & Talent Acquisition:</h4>
             <p className="service-description">
-              We specialize in sourcing and placing highly qualified
-              professionals across various sectors, providing customized
-              recruitment solutions that meet both short-term project needs and
-              long-term staffing requirements.
+              We help businesses find the right talent for their teams through comprehensive recruitment strategies. 
+              Our expert recruiters use advanced screening techniques and extensive networks to identify top candidates 
+              who match your company culture and requirements.<br></br>
+              From entry-level positions to executive roles, we streamline the hiring process to save you time and resources 
+              while ensuring quality placements.
             </p>
           </div>
         </div>
@@ -195,10 +122,10 @@ export default function ServicesPage() {
           <div className="service-content left">
             <h4 className="service-heading">Manpower Supply:</h4>
             <p className="service-description">
-              Our manpower solutions are designed to supply skilled personnel
-              tailored to industry-specific demands, including sectors such as
-              information technology, engineering, finance, healthcare, and
-              construction.
+              Reliable and skilled workforce solutions tailored to your business needs. We provide temporary, contract, 
+              and permanent staffing solutions across various industries including construction, manufacturing, logistics, and more.<br></br>
+              Our rigorous vetting process ensures that all workers meet safety standards, possess required certifications, 
+              and are ready to contribute to your projects from day one.
             </p>
           </div>
           <div className="service-image-container left">
@@ -226,11 +153,33 @@ export default function ServicesPage() {
           <div className="service-content right">
             <h4 className="service-heading">Outsourcing Services:</h4>
             <p className="service-description">
-              We offer end-to-end outsourcing solutions, including HR functions,
-              payroll management, administrative support, and more, enabling
-              businesses to streamline operations and focus on core growth
-              activities.
+              Comprehensive outsourcing solutions to streamline your operations. We handle entire departments or specific 
+              functions, allowing you to focus on core business activities while we manage the rest.<br></br>
+              Whether it's administrative support, customer service, or specialized technical functions, our outsourcing 
+              services reduce costs and improve efficiency.
             </p>
+          </div>
+        </div>
+
+        {/* Service 2: Manpower Supply */}
+        <div className="service-section service-2">
+          <div className="service-content left">
+            <h4 className="service-heading">Manpower Supply:</h4>
+            <p className="service-description">
+              Specialized recruitment for senior-level and executive positions. Our executive search team conducts thorough 
+              assessments to identify leaders who can drive organizational growth and transformation.<br></br>
+              We understand the critical importance of leadership roles and work discreetly to find candidates who align 
+              with your strategic vision and company values.
+            </p>
+          </div>
+          <div className="service-image-container left">
+            <Image
+              src="/assets/service_4.jpg"
+              alt="Construction Workers"
+              width={450}
+              height={350}
+              className="service-image"
+            />
           </div>
         </div>
       </div>
