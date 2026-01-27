@@ -1,88 +1,195 @@
+"use client";
+
+import "@/app/styles/industries.css";
+
+// React Icons
+import { MdConstruction } from "react-icons/md";
+import { FaIndustry, FaTshirt, FaHandHoldingMedical, FaBriefcase } from "react-icons/fa";
+import { FaComputer, FaLocationDot, FaTruckFast } from "react-icons/fa6";
+import { PiPlantFill } from "react-icons/pi";
+
 export default function IndustriesPage() {
   return (
-    <div style={{ minHeight: "100vh", padding: "4rem", background: "#f5f5f5" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <h1 style={{ fontSize: "3rem", marginBottom: "1rem", color: "#0A1F24" }}>Industries We Serve</h1>
-        <p style={{ fontSize: "1.2rem", marginBottom: "3rem", color: "#666", maxWidth: "800px" }}>
-          We provide workforce solutions across various industries, helping businesses find the right talent for their specific needs
-        </p>
-        
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
-          <div style={{ background: "white", padding: "2.5rem", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
-            <h2 style={{ color: "#05B6BC", marginBottom: "1rem", fontSize: "1.5rem" }}>Construction & Engineering</h2>
-            <p style={{ color: "#666", lineHeight: "1.8", marginBottom: "1rem" }}>
-              We supply skilled construction workers, engineers, project managers, and safety professionals for infrastructure 
-              projects, residential developments, and commercial construction.
-            </p>
-            <p style={{ color: "#666", lineHeight: "1.8" }}>
-              Our candidates are certified, safety-trained, and experienced in various construction methodologies.
-            </p>
+    <div className="industries-page">
+      {/* Animated Background Rays */}
+      <div className="bg-rays">
+        <div className="ray ray-1"></div>
+        <div className="ray ray-2"></div>
+        <div className="ray ray-3"></div>
+        <div className="ray ray-4"></div>
+        <div className="ray ray-5"></div>
+        <div className="ray ray-6"></div>
+      </div>
+
+      {/* Decorative Circles */}
+      <div className="deco-circle circle-1"></div>
+      <div className="deco-circle circle-2"></div>
+      <div className="deco-circle circle-3"></div>
+      <div className="deco-circle circle-4"></div>
+
+      {/* Content */}
+      <div className="industries-container">
+        {/* Top Section */}
+        <div className="industries-top">
+          <div className="industries-header">
+            <h2 className="industries-subtitle">serving</h2>
+            <h1 className="industries-title">INDUSTRIES</h1>
+            <h3 className="industries-headline">
+              Your Trusted Partner for Industry-Specific Talent Acquisition
+            </h3>
           </div>
 
-          <div style={{ background: "white", padding: "2.5rem", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
-            <h2 style={{ color: "#05B6BC", marginBottom: "1rem", fontSize: "1.5rem" }}>Manufacturing & Production</h2>
-            <p style={{ color: "#666", lineHeight: "1.8", marginBottom: "1rem" }}>
-              From factory floor workers to production supervisors, we provide manpower solutions for manufacturing facilities 
-              across textiles, food processing, electronics, and automotive sectors.
-            </p>
-            <p style={{ color: "#666", lineHeight: "1.8" }}>
-              Quality assurance personnel and production line operators are available to keep your operations running smoothly.
-            </p>
-          </div>
-
-          <div style={{ background: "white", padding: "2.5rem", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
-            <h2 style={{ color: "#05B6BC", marginBottom: "1rem", fontSize: "1.5rem" }}>Logistics & Warehousing</h2>
-            <p style={{ color: "#666", lineHeight: "1.8", marginBottom: "1rem" }}>
-              We supply warehouse staff, forklift operators, logistics coordinators, and distribution center workers to support 
-              your supply chain operations.
-            </p>
-            <p style={{ color: "#666", lineHeight: "1.8" }}>
-              All our logistics personnel are trained in inventory management and safety protocols.
-            </p>
-          </div>
-
-          <div style={{ background: "white", padding: "2.5rem", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
-            <h2 style={{ color: "#05B6BC", marginBottom: "1rem", fontSize: "1.5rem" }}>Hospitality & Tourism</h2>
-            <p style={{ color: "#666", lineHeight: "1.8", marginBottom: "1rem" }}>
-              Hotel staff, restaurant workers, event coordinators, and customer service professionals are available to enhance 
-              your hospitality operations.
-            </p>
-            <p style={{ color: "#666", lineHeight: "1.8" }}>
-              Our hospitality staff are trained in customer service excellence and industry best practices.
-            </p>
-          </div>
-
-          <div style={{ background: "white", padding: "2.5rem", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
-            <h2 style={{ color: "#05B6BC", marginBottom: "1rem", fontSize: "1.5rem" }}>Information Technology</h2>
-            <p style={{ color: "#666", lineHeight: "1.8", marginBottom: "1rem" }}>
-              We recruit software developers, IT support specialists, system administrators, and technical project managers 
-              for companies in the technology sector.
-            </p>
-            <p style={{ color: "#666", lineHeight: "1.8" }}>
-              Our IT professionals stay updated with the latest technologies and certifications.
-            </p>
-          </div>
-
-          <div style={{ background: "white", padding: "2.5rem", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}>
-            <h2 style={{ color: "#05B6BC", marginBottom: "1rem", fontSize: "1.5rem" }}>Healthcare & Pharmaceuticals</h2>
-            <p style={{ color: "#666", lineHeight: "1.8", marginBottom: "1rem" }}>
-              We provide healthcare support staff, laboratory technicians, pharmaceutical representatives, and administrative 
-              personnel for medical facilities and healthcare organizations.
-            </p>
-            <p style={{ color: "#666", lineHeight: "1.8" }}>
-              All healthcare personnel meet industry compliance and certification requirements.
+          <div className="intro-text">
+            <p>
+              Tailored expertise and strategic staffing solutions across diverse
+              industries, empowering your specific sector with the dedicated
+              talent required to maintain your competitive edge.
             </p>
           </div>
         </div>
 
-        <div style={{ background: "#05B6BC", padding: "3rem", borderRadius: "12px", marginTop: "3rem", textAlign: "center" }}>
-          <h2 style={{ color: "white", marginBottom: "1rem", fontSize: "1.8rem" }}>Not Seeing Your Industry?</h2>
-          <p style={{ color: "white", fontSize: "1.2rem", lineHeight: "1.8" }}>
-            We work with businesses across many sectors. Contact us to discuss your specific industry needs.
+        {/* Industry Cards Grid */}
+        <div className="industries-grid">
+          {/* 1. Construction & Infrastructure */}
+          <div className="industry-card">
+            <h4 className="card-title">
+              Construction &<br />Infrastructure
+            </h4>
+            <div className="card-icon">
+              <MdConstruction />
+            </div>
+            <p className="card-description">
+              Skilled workforce support for construction sites, infrastructure
+              projects, civil engineering works, and large-scale development
+              initiatives.
+            </p>
+          </div>
+
+          {/* 2. Manufacturing & Industrial */}
+          <div className="industry-card">
+            <h4 className="card-title">
+              Manufacturing &<br />Industrial Operations
+            </h4>
+            <div className="card-icon">
+              <FaIndustry />
+            </div>
+            <p className="card-description">
+              Reliable manpower solutions for factories, production lines,
+              machinery operations, quality control, and industrial maintenance.
+            </p>
+          </div>
+
+          {/* 3. Apparel & Textile */}
+          <div className="industry-card">
+            <h4 className="card-title">
+              Apparel & Textile<br />Industry
+            </h4>
+            <div className="card-icon">
+              <FaTshirt />
+            </div>
+            <p className="card-description">
+              Dedicated staffing for garment manufacturing, textile production,
+              quality inspection, and compliance operations.
+            </p>
+          </div>
+
+          {/* 4. Information Technology */}
+          <div className="industry-card">
+            <h4 className="card-title">
+              Information<br />Technology
+            </h4>
+            <div className="card-icon">
+              <FaComputer />
+            </div>
+            <p className="card-description">
+              IT professionals and technical support staff for software
+              development, systems operations, and digital transformation.
+            </p>
+          </div>
+
+          {/* 5. Hospitality & Tourism */}
+          <div className="industry-card">
+            <h4 className="card-title">Hospitality & Tourism</h4>
+            <div className="card-icon">
+              <FaLocationDot />
+            </div>
+            <p className="card-description">
+              Workforce solutions for hotels, resorts, travel services, and
+              hospitality-focused business operations.
+            </p>
+          </div>
+
+          {/* 6. Healthcare */}
+          <div className="industry-card">
+            <h4 className="card-title">
+              Healthcare &<br />Medical Services
+            </h4>
+            <div className="card-icon">
+              <FaHandHoldingMedical />
+            </div>
+            <p className="card-description">
+              Skilled professionals supporting hospitals, clinics, medical
+              facilities, and healthcare service providers.
+            </p>
+          </div>
+
+          {/* 7. Logistics */}
+          <div className="industry-card">
+            <h4 className="card-title">
+              Logistics, Warehousing<br />& Transportation
+            </h4>
+            <div className="card-icon">
+              <FaTruckFast />
+            </div>
+            <p className="card-description">
+              Efficient manpower for warehousing, inventory management,
+              transportation services, and supply chain operations.
+            </p>
+          </div>
+
+          {/* 8. Banking & Corporate */}
+          <div className="industry-card">
+            <h4 className="card-title">
+              Banking, Finance &<br />Corporate Services
+            </h4>
+            <div className="card-icon">
+              <FaBriefcase />
+            </div>
+            <p className="card-description">
+              Professional administrative and operational staff for banking,
+              finance institutions, and corporate environments.
+            </p>
+          </div>
+
+          {/* 9. Agriculture */}
+          <div className="industry-card">
+            <h4 className="card-title">
+              Agriculture, Plantations<br />& Agro-Processing
+            </h4>
+            <div className="card-icon">
+              <PiPlantFill />
+            </div>
+            <p className="card-description">
+              Skilled labor solutions for agricultural production, plantations,
+              harvesting, and agro-processing facilities.
+            </p>
+          </div>
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="bottom-cta">
+          <div>
+            <h3 className="cta-title">
+              Can't find the <span className="highlight">industry</span> you are looking for?
+            </h3>
+          </div>
+          <p className="cta-description">
+            We work with businesses across many sectors. Contact us to discuss
+            your specific industry needs.
           </p>
+          <button className="cta-button">Contact us</button>
         </div>
       </div>
     </div>
   );
 }
-

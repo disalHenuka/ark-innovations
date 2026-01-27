@@ -41,11 +41,11 @@ export default function ServicesPage() {
         },
         colors: {
           background: "#ffffff",
-          particles: ["#000000"],
+          particles: ["#00959e"],
         },
         blending: "lighten",
         opacity: {
-          center: 0.7,
+          center: 0.9,
           edge: 1,
         },
         skew: 0,
@@ -164,7 +164,7 @@ export default function ServicesPage() {
         {/* Service 2: Manpower Supply */}
         <div className="service-section service-2">
           <div className="service-content left">
-            <h4 className="service-heading">Manpower Supply:</h4>
+            <h4 className="service-heading">Executive Search & Placement: </h4>
             <p className="service-description">
               Specialized recruitment for senior-level and executive positions. Our executive search team conducts thorough 
               assessments to identify leaders who can drive organizational growth and transformation.<br></br>
