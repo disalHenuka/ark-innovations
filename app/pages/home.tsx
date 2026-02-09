@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { motion, easeOut } from "framer-motion";
+import { motion, useScroll, useTransform, easeOut } from "framer-motion";
+import Link from "next/link";
 import Footer from "../components/Footer";
 import "@/app/styles/home.css";
 
@@ -33,17 +35,59 @@ const fadeRightSkyline = {
 };
 
 export default function HomePage() {
+  const { scrollYProgress } = useScroll();
+
+  // Hero parallax - moves slowly upward and fades out
+  const heroY = useTransform(scrollYProgress, [0, 0.25], [0, -100]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.15, 0.25], [1, 0.6, 0]);
+
+  // White overlay that covers hero with curved edge
+  const overlayHeight = useTransform(scrollYProgress, [0, 0.25], ["0%", "100%"]);
+  const overlayBorderRadius = useTransform(scrollYProgress, [0, 0.15, 0.25], ["0% 0% 50% 50%", "0% 0% 30% 30%", "0% 0% 0% 0%"]);
+
+  // Network section - appears with slight zoom-in, stays stable when footer appears
+  const networkScale = useTransform(
+    scrollYProgress,
+    [0.2, 0.3, 0.75, 0.95],
+    [0.85, 1, 1, 1]
+  );
+
+  const networkOpacity = useTransform(
+    scrollYProgress,
+    [0.15, 0.3, 0.85, 1],
+    [0, 1, 1, 0]
+  );
+
+  const networkY = useTransform(
+    scrollYProgress,
+    [0.15, 0.3],
+    [40, 0]
+  );
+
+  // Footer - buttery smooth appearance
+  const footerOpacity = useTransform(
+    scrollYProgress,
+    [0.8, 1],
+    [0, 1]
+  );
+
   return (
-    <>      
-      {/* HERO */}
-      <section className="section">
-        
+    <>
+      {/* HERO SECTION WITH PARALLAX */}
+      <motion.section
+        className="heroSection"
+        style={{
+          y: heroY,
+          opacity: heroOpacity
+        }}
+      >
+
         {/* SKYLINE - at the back */}
         <motion.div
           variants={fadeRightSkyline}
           initial="hidden"
           animate="visible"
-          style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: 0 }}
+          className="skylineWrapper"
         >
           <motion.div
             animate={{ y: [0, 8, 0] }}
@@ -59,12 +103,12 @@ export default function HomePage() {
           </motion.div>
         </motion.div>
 
-        {/* BLUE ROTATED BACKGROUND PNG - animates from left to right quickly */}
+        {/* BLUE ROTATED BACKGROUND PNG */}
         <motion.div
           initial={{ x: -200, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: 1 }}
+          className="backgroundShapeWrapper"
         >
           <Image
             src="/assets/background.png"
@@ -75,8 +119,8 @@ export default function HomePage() {
           />
         </motion.div>
 
-        <div className="container" style={{ position: "relative", zIndex: 10 }}>
-          
+        <div className="heroContainer">
+
           {/* LEFT CONTENT */}
           <motion.div
             variants={fadeLeft}
@@ -105,20 +149,24 @@ export default function HomePage() {
             </p>
 
             <div className="buttonGroup">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                className="primaryButton"
-              >
-                Get Started
-                <span className="buttonArrow"></span>
-              </motion.button>
+              <Link href="/services">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  className="primaryButton"
+                >
+                  Get Started
+                  <span className="buttonArrow"></span>
+                </motion.button>
+              </Link>
 
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                className="secondaryButton"
-              >
-                Contact Us
-              </motion.button>
+              <Link href="/contact">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  className="secondaryButton"
+                >
+                  Contact Us
+                </motion.button>
+              </Link>
             </div>
           </motion.div>
 
@@ -128,12 +176,12 @@ export default function HomePage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "45%", zIndex: 5 }}
+            className="workerWrapper"
           >
             <motion.div
               animate={{ y: [0, 6, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              style={{ position: "absolute", bottom: 0, right: 0, width: "100%", height: "90%" }}
+              className="workerImageContainer"
             >
               <Image
                 src="/assets/worker.png"
@@ -146,13 +194,71 @@ export default function HomePage() {
           </motion.div>
 
         </div>
-      </section>
+      </motion.section>
 
-      {/* FOOTER - appears after all components with fade-in */}
+      {/* WHITE OVERLAY WITH CURVED/BLOATED EDGE */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: easeOut, delay: 1.4 }}
+        className="whiteOverlay"
+        style={{
+          height: overlayHeight,
+          borderRadius: overlayBorderRadius
+        }}
+      />
+
+      {/* NETWORK SECTION WITH PARALLAX ZOOM */}
+      <motion.section
+        className="networkSectionParallax"
+        style={{
+          scale: networkScale,
+          opacity: networkOpacity,
+          y: networkY
+        }}
+      >
+        <div className="networkOverlay">
+          <div className="networkContainer">
+            <div className="networkLeftContent">
+              <h2 className="networkHeading">
+                A Network of <span className="highlightText">Skilled</span> Professionals
+                <br />
+                Across Key Industries
+              </h2>
+
+              <p className="networkDescription">
+                From construction to IT, healthcare to logistics, Ark Innovations
+                connects businesses with a trusted network of industry-ready
+                professionals ensuring the right talent, at the right time.
+              </p>
+
+              <ul className="networkList">
+                <li>Pre-vetted industry professionals</li>
+                <li>Scalable workforce solutions</li>
+                <li>Multi-industry talent coverage</li>
+              </ul>
+
+              <Link href="/services">
+                <button className="cta-button">Learn More</button>
+              </Link>
+            </div>
+
+            <div className="networkRightContent">
+              <Image
+                src="/assets/connect.png"
+                alt="Network connection"
+                width={450}
+                height={450}
+                className="networkImage"
+              />
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* FOOTER WITH BUTTERY SMOOTH APPEARANCE */}
+      <motion.div
+        className="footerWrapper"
+        style={{
+          opacity: footerOpacity
+        }}
       >
         <Footer />
       </motion.div>

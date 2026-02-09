@@ -4,12 +4,8 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Garet';
-  overflow-x: hidden;
-}
-
 .services-page {
+  overflow-x: hidden;
   position: relative;
   min-height: 100vh;
   background: #F5F5F5;

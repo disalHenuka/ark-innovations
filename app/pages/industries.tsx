@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import "@/app/styles/industries.css";
 
 // React Icons
@@ -187,7 +188,9 @@ export default function IndustriesPage() {
             We work with businesses across many sectors. Contact us to discuss
             your specific industry needs.
           </p>
-          <button className="cta-button">Contact us</button>
+          <Link href="/contact">
+            <button className="cta-button">Contact us</button>
+          </Link>
         </div>
       </div>
     </div>

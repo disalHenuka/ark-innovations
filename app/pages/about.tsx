@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 import "@/app/styles/about.css";
 
 export default function AboutPage() {
@@ -182,7 +183,9 @@ export default function AboutPage() {
             Let us be your partner in building a workforce that drives your
             organization forward.
           </p>
-          <button className="cta-button">Contact us</button>
+          <Link href="/contact">
+            <button className="cta-button">Contact us</button>
+          </Link>
         </div>
       </div>
     </div>
