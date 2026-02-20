@@ -56,9 +56,11 @@ body {
 .sections-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 80px; /* Increased gap to see the 'drop' stretch more */
+  gap: 80px;
+  /* Increased gap to see the 'drop' stretch more */
   margin-bottom: 100px;
-  filter: url('#goo'); /* References the SVG filter in your JSX */
+  filter: url('#goo');
+  /* References the SVG filter in your JSX */
   position: relative;
 }
 
@@ -66,20 +68,21 @@ body {
 .expertise-section,
 .approach-section {
   position: relative;
-  background: #FFFFFF; /* Must be a solid color for the filter to work */
+  background: #FFFFFF;
+  /* Must be a solid color for the filter to work */
   border: 3px solid #00B5BC;
   border-radius: 40px;
   padding: 50px;
   transition: border-color 0.3s ease;
   /* IMPORTANT: Must be visible so the liquid can stretch outside the box */
-  overflow: visible; 
+  overflow: visible;
 }
 
 /* The Shared Fluid Element (Framer Motion Target) */
 .liquid-fill-shared {
   position: absolute;
   /* Slightly larger than box to cover borders */
-  top: -3px; 
+  top: -3px;
   left: -3px;
   right: -3px;
   bottom: -3px;
@@ -89,14 +92,26 @@ body {
 }
 
 /* Layout Positioning */
-.about-section { align-self: flex-start; max-width: 780px; }
-.expertise-section { align-self: flex-end; max-width: 780px; }
-.approach-section { align-self: flex-start; max-width: 780px; }
+.about-section {
+  align-self: flex-start;
+  max-width: 780px;
+}
+
+.expertise-section {
+  align-self: flex-end;
+  max-width: 780px;
+}
+
+.approach-section {
+  align-self: flex-start;
+  max-width: 780px;
+}
 
 /* --- Section Content Styling --- */
 .section-content {
   position: relative;
-  z-index: 2; /* Keeps text above the moving liquid */
+  z-index: 2;
+  /* Keeps text above the moving liquid */
   transition: color 0.4s ease;
 }
 
@@ -116,7 +131,8 @@ body {
   margin-bottom: 20px;
 }
 
-.about-text, .section-text {
+.about-text,
+.section-text {
   font-size: 1rem;
   line-height: 1.8;
   color: #000000;
@@ -178,6 +194,35 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  position: relative;
+  /* Context for absolute liquid */
+  overflow: hidden;
+  /* Keep the liquid inside the card shape? Or visible for goo? User said "steal blue fill". Clean fill usually implies hidden or matching radius. 
+                       However, main blocks have overflow: visible. Let's try visible to see if it drips, but the cards are small. 
+                       Let's start with hidden to match the rounded card border exactly. */
+  overflow: visible;
+  /* changed from hidden to let the bubble 'fly' */
+  z-index: 1;
+  /* Ensure it plays nice with siblings */
+}
+
+/* Adjust liquid radius for cards */
+.feature-card .liquid-fill-shared {
+  border-radius: 20px !important;
+}
+
+/* Ensure content is above the liquid */
+.card-content-wrapper {
+  position: relative;
+  z-index: 2;
+  transition: color 0.3s ease;
+}
+
+/* Active State for Cards (Hovered with liquid) */
+.feature-card.active .feature-title,
+.feature-card.active .feature-description {
+  color: #FFFFFF !important;
+  transition: color 0.3s ease;
 }
 
 .feature-card:hover {
@@ -252,13 +297,31 @@ body {
 
 /* --- Responsive --- */
 @media (max-width: 1200px) {
-  .about-container { padding: 80px 40px; }
-  .features-grid { grid-template-columns: repeat(2, 1fr); }
-  .about-section, .expertise-section, .approach-section { max-width: 100%; }
+  .about-container {
+    padding: 80px 40px;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-section,
+  .expertise-section,
+  .approach-section {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 640px) {
-  .about-title { font-size: 2rem; }
-  .features-grid { grid-template-columns: 1fr; }
-  .sections-wrapper { gap: 40px; }
+  .about-title {
+    font-size: 2rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sections-wrapper {
+    gap: 40px;
+  }
 }

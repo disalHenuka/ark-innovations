@@ -9,15 +9,15 @@ export default function AboutPage() {
   const aboutRef = useRef<HTMLDivElement>(null);
   const expertiseRef = useRef<HTMLDivElement>(null);
   const approachRef = useRef<HTMLDivElement>(null);
-  
-  const [activeSection, setActiveSection] = useState<'about' | 'expertise' | 'approach'>('about');
+
+  const [activeSection, setActiveSection] = useState<string>('about');
 
   useEffect(() => {
     const handleScroll = () => {
       const sections = [
-        { ref: aboutRef, id: 'about' as const },
-        { ref: expertiseRef, id: 'expertise' as const },
-        { ref: approachRef, id: 'approach' as const }
+        { ref: aboutRef, id: 'about' },
+        { ref: expertiseRef, id: 'expertise' },
+        { ref: approachRef, id: 'approach' }
       ];
 
       let closest = sections[0];
@@ -26,13 +26,19 @@ export default function AboutPage() {
       sections.forEach(section => {
         if (!section.ref.current) return;
         const rect = section.ref.current.getBoundingClientRect();
+        // Calculate distance from center of viewport
         const distance = Math.abs((rect.top + rect.height / 2) - (window.innerHeight / 2));
         if (distance < minDistance) {
           minDistance = distance;
           closest = section;
         }
       });
-      setActiveSection(closest.id);
+
+      // Only update if the closest section is actually within reasonable view range (e.g., half viewport height)
+      // This allows the cards to "hold" the state when we are far below the main sections.
+      if (minDistance < window.innerHeight * 0.6) {
+        setActiveSection(closest.id);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -60,11 +66,11 @@ export default function AboutPage() {
         <defs>
           <filter id="goo">
             <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur" />
-            <feColorMatrix 
-              in="blur" 
-              mode="matrix" 
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 25 -12" 
-              result="goo" 
+            <feColorMatrix
+              in="blur"
+              mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 25 -12"
+              result="goo"
             />
             <feComposite in="SourceGraphic" in2="goo" operator="atop" />
           </filter>
@@ -79,7 +85,7 @@ export default function AboutPage() {
 
         {/* 2. Container with the Goo Filter applied */}
         <div className="sections-wrapper goo-container">
-          
+
           {/* About Section */}
           <div ref={aboutRef} className={`about-section ${activeSection === 'about' ? 'active' : ''}`}>
             <div className="section-content">
@@ -129,64 +135,89 @@ export default function AboutPage() {
             {activeSection === 'approach' && <LiquidBackground />}
           </div>
 
+
         </div>
 
-        {/* Why Choose Section */}
+        {/* Why Choose Section - Kept outside sections-wrapper to avoid text distortion from goo filter */}
         <div className="why-choose-section">
           <h2 className="why-choose-title">
             Why <span className="highlight">Choose</span> Ark Innovations
           </h2>
 
           <div className="features-grid">
-            <div className="feature-card">
-              <h3 className="feature-title">Industry Knowledge</h3>
-              <p className="feature-description">
-                Our recruiters bring deep insights into industry-specific trends
-                and demands, allowing us to provide well-informed staffing
-                solutions.
-              </p>
+            <div
+              className={`feature-card ${activeSection === 'card-0' ? 'active' : ''}`}
+              onMouseEnter={() => setActiveSection('card-0')}
+            >
+              <div className="card-content-wrapper">
+                <h3 className="feature-title">Industry Knowledge</h3>
+                <p className="feature-description">
+                  Our recruiters bring deep insights into industry-specific trends
+                  and demands, allowing us to provide well-informed staffing
+                  solutions.
+                </p>
+              </div>
+              {activeSection === 'card-0' && <LiquidBackground />}
             </div>
 
-            <div className="feature-card">
-              <h3 className="feature-title">Quality Assurance</h3>
-              <p className="feature-description">
-                We prioritize quality and reliability in every placement,
-                ensuring that our clients receive top-tier professionals who are
-                committed to delivering excellence in their roles.
-              </p>
+            <div
+              className={`feature-card ${activeSection === 'card-1' ? 'active' : ''}`}
+              onMouseEnter={() => setActiveSection('card-1')}
+            >
+              <div className="card-content-wrapper">
+                <h3 className="feature-title">Quality Assurance</h3>
+                <p className="feature-description">
+                  We prioritize quality and reliability in every placement,
+                  ensuring that our clients receive top-tier professionals who are
+                  committed to delivering excellence in their roles.
+                </p>
+              </div>
+              {activeSection === 'card-1' && <LiquidBackground />}
             </div>
 
-            <div className="feature-card">
-              <h3 className="feature-title">Comprehensive Support</h3>
-              <p className="feature-description">
-                From recruitment and onboarding to payroll management and ongoing
-                workforce support, we offer a full spectrum of services to meet
-                our clients' diverse needs.
-              </p>
+            <div
+              className={`feature-card ${activeSection === 'card-2' ? 'active' : ''}`}
+              onMouseEnter={() => setActiveSection('card-2')}
+            >
+              <div className="card-content-wrapper">
+                <h3 className="feature-title">Comprehensive Support</h3>
+                <p className="feature-description">
+                  From recruitment and onboarding to payroll management and ongoing
+                  workforce support, we offer a full spectrum of services to meet
+                  our clients' diverse needs.
+                </p>
+              </div>
+              {activeSection === 'card-2' && <LiquidBackground />}
             </div>
 
-            <div className="feature-card">
-              <h3 className="feature-title">Long-Term Partnerships</h3>
-              <p className="feature-description">
-                We build relationships founded on trust, transparency, and mutual
-                growth, making us a reliable partner for workforce solutions and
-                talent management.
-              </p>
+            <div
+              className={`feature-card ${activeSection === 'card-3' ? 'active' : ''}`}
+              onMouseEnter={() => setActiveSection('card-3')}
+            >
+              <div className="card-content-wrapper">
+                <h3 className="feature-title">Long-Term Partnerships</h3>
+                <p className="feature-description">
+                  We build relationships founded on trust, transparency, and mutual
+                  growth, making us a reliable partner for workforce solutions and
+                  talent management.
+                </p>
+              </div>
+              {activeSection === 'card-3' && <LiquidBackground />}
             </div>
           </div>
         </div>
+      </div>
 
-        {/* CTA Section */}
-        <div className="bottom-cta">
-          <h2 className="cta-title">Wanna join us?</h2>
-          <p className="cta-description">
-            Let us be your partner in building a workforce that drives your
-            organization forward.
-          </p>
-          <Link href="/contact">
-            <button className="cta-button">Contact us</button>
-          </Link>
-        </div>
+      {/* CTA Section */}
+      <div className="bottom-cta">
+        <h2 className="cta-title">Wanna join us?</h2>
+        <p className="cta-description">
+          Let us be your partner in building a workforce that drives your
+          organization forward.
+        </p>
+        <Link href="/contact">
+          <button className="cta-button">Contact us</button>
+        </Link>
       </div>
     </div>
   );
