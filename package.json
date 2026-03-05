@@ -11,8 +11,10 @@
     "clean:force": "if exist .next rmdir /s /q .next && if exist node_modules\\.cache rmdir /s /q node_modules\\.cache && if exist .next rmdir /s /q .next"
   },
   "dependencies": {
+    "@types/nodemailer": "^7.0.10",
     "framer-motion": "^12.25.0",
     "next": "16.1.1",
+    "nodemailer": "^8.0.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-icons": "^5.5.0"

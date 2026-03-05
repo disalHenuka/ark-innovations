@@ -14,6 +14,41 @@ body {
 .about-page {
   position: relative;
   min-height: 100vh;
+  overflow: hidden;
+}
+
+/* --- Seamless Scrolling Skyline Background --- */
+.skyline-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0.25;
+}
+
+.skyline-scroll {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 200%;
+  background-image: url('/assets/blueskyline.png');
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: 0 0;
+  animation: scrollSkyline 60s linear infinite;
+}
+
+@keyframes scrollSkyline {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* --- Main Container --- */
@@ -23,9 +58,10 @@ body {
   max-width: 1400px;
   margin: 0 auto;
   padding: 100px 80px;
+  margin-bottom: -150px;
 }
 
-/* Header Section - Matching Industries */
+/* Header Section */
 .about-header {
   margin-bottom: 80px;
 }
@@ -50,17 +86,16 @@ body {
   margin-bottom: 0;
 }
 
-/* --- Liquid/Gooey Animation Core --- */
+/* --- CRITICAL: Liquid/Gooey Animation Core --- */
 
 /* This container applies the "Liquid" filter to everything inside it */
 .sections-wrapper {
   display: flex;
   flex-direction: column;
   gap: 80px;
-  /* Increased gap to see the 'drop' stretch more */
   margin-bottom: 100px;
+  /* THIS IS THE MOST IMPORTANT LINE - DO NOT REMOVE */
   filter: url('#goo');
-  /* References the SVG filter in your JSX */
   position: relative;
 }
 
@@ -69,23 +104,22 @@ body {
 .approach-section {
   position: relative;
   background: #FFFFFF;
-  /* Must be a solid color for the filter to work */
   border: 3px solid #00B5BC;
   border-radius: 40px;
   padding: 50px;
   transition: border-color 0.3s ease;
-  /* IMPORTANT: Must be visible so the liquid can stretch outside the box */
+  /* IMPORTANT: Must be visible so the liquid can stretch outside */
   overflow: visible;
 }
 
-/* The Shared Fluid Element (Framer Motion Target) */
+/* The Shared Fluid Element - THIS CREATES THE BLUE LIQUID */
 .liquid-fill-shared {
   position: absolute;
-  /* Slightly larger than box to cover borders */
   top: -3px;
   left: -3px;
   right: -3px;
   bottom: -3px;
+  /* THIS IS THE BLUE COLOR */
   background: #00B5BC;
   z-index: 0;
   border-radius: 38px;
@@ -111,7 +145,6 @@ body {
 .section-content {
   position: relative;
   z-index: 2;
-  /* Keeps text above the moving liquid */
   transition: color 0.4s ease;
 }
 
@@ -129,6 +162,7 @@ body {
   font-weight: 700;
   color: #000000;
   margin-bottom: 20px;
+  font-family: 'garet';
 }
 
 .about-text,
@@ -136,8 +170,17 @@ body {
   font-size: 1rem;
   line-height: 1.8;
   color: #000000;
+  font-family: sans-serif;
   text-align: justify;
   margin-bottom: 20px;
+}
+
+.about-text:last-of-type {
+  margin-bottom: 0;
+}
+
+.about-text strong {
+  font-weight: 700;
 }
 
 .see-more-btn {
@@ -146,8 +189,9 @@ body {
   border: none;
   font-size: 1rem;
   font-weight: 600;
+  font-family: 'garet';
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease;
 }
 
 .see-more-btn:hover {
@@ -155,7 +199,6 @@ body {
 }
 
 /* --- Why Choose Section --- */
-/* Why Choose Section */
 .why-choose-section {
   margin-bottom: 80px;
   margin-top: 40px;
@@ -179,7 +222,7 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
-  margin-bottom: 40px;
+  filter: url('#goo');
 }
 
 .feature-card {
@@ -195,20 +238,15 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   position: relative;
-  /* Context for absolute liquid */
-  overflow: hidden;
-  /* Keep the liquid inside the card shape? Or visible for goo? User said "steal blue fill". Clean fill usually implies hidden or matching radius. 
-                       However, main blocks have overflow: visible. Let's try visible to see if it drips, but the cards are small. 
-                       Let's start with hidden to match the rounded card border exactly. */
+  /* IMPORTANT: overflow visible for goo effect */
   overflow: visible;
-  /* changed from hidden to let the bubble 'fly' */
+  filter: url('#goo');
   z-index: 1;
-  /* Ensure it plays nice with siblings */
 }
 
 /* Adjust liquid radius for cards */
 .feature-card .liquid-fill-shared {
-  border-radius: 20px !important;
+  border-radius: 17px !important;
 }
 
 /* Ensure content is above the liquid */
@@ -248,12 +286,10 @@ body {
   text-align: center;
 }
 
-
 /* --- Bottom CTA --- */
 .bottom-cta {
   text-align: center;
-  padding: 40px 20px;
-  margin-top: 60px;
+  margin-bottom: 100px;
 }
 
 .cta-title {
@@ -303,6 +339,7 @@ body {
 
   .features-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
   }
 
   .about-section,
@@ -312,16 +349,70 @@ body {
   }
 }
 
+@media (max-width: 968px) {
+  .about-container {
+    padding: 60px 40px;
+  }
+
+  .about-title {
+    font-size: 2.2rem;
+  }
+
+  .sections-wrapper {
+    gap: 60px;
+  }
+}
+
 @media (max-width: 640px) {
+  .about-container {
+    padding: 40px 24px;
+  }
+
   .about-title {
     font-size: 2rem;
   }
 
+  .about-subtitle {
+    margin-top: 40px;
+  }
+
   .features-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .sections-wrapper {
     gap: 40px;
+  }
+
+  .about-section,
+  .expertise-section,
+  .approach-section {
+    padding: 30px 35px;
+  }
+
+  .section-heading {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-title {
+    font-size: 1.8rem;
+  }
+
+  .section-heading {
+    font-size: 1.4rem;
+  }
+
+  .about-text,
+  .section-text,
+  .feature-description {
+    font-size: 0.9rem;
+  }
+
+  .cta-button {
+    padding: 12px 32px;
+    font-size: 1rem;
   }
 }

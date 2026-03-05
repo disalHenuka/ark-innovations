@@ -1,267 +1,326 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform, easeOut } from "framer-motion";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import Footer from "../components/Footer";
 import "@/app/styles/home.css";
 
-const fadeLeft = {
+
+/* =========================================================
+   SCROLL VISIBILITY HOOK
+========================================================= */
+function useScrollFade(threshold = 0.2) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isVisible };
+}
+
+
+/* =========================================================
+   ANIMATION VARIANTS
+========================================================= */
+const fadeInUp: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.75, ease: "easeOut" },
+  },
+};
+
+const fadeInLeft: Variants = {
   hidden: { opacity: 0, x: -60 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.8, ease: easeOut, delay: 0.6 },
+    transition: { duration: 0.8, ease: "easeOut", delay: 0.1 },
   },
 };
 
-const fadeRight = {
+const fadeInRight: Variants = {
   hidden: { opacity: 0, x: 60 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.8, ease: easeOut, delay: 0.6 },
+    transition: { duration: 0.8, ease: "easeOut", delay: 0.1 },
   },
 };
 
-const fadeRightSkyline = {
+const fadeInRightSlow: Variants = {
   hidden: { opacity: 0, x: 60 },
   visible: {
     opacity: 1,
     x: 0,
-    transition: { duration: 1.1, ease: easeOut, delay: 0.6 },
+    transition: { duration: 1.1, ease: "easeOut", delay: 0.05 },
   },
 };
 
-export default function HomePage() {
-  const { scrollYProgress } = useScroll();
+const fadeInBg: Variants = {
+  hidden: { opacity: 0, x: -200 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.65, ease: "easeOut" },
+  },
+};
 
-  // Hero parallax - moves slowly upward and fades out
-  const heroY = useTransform(scrollYProgress, [0, 0.25], [0, -100]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.15, 0.25], [1, 0.6, 0]);
+const scaleIn: Variants = {
+  hidden: { opacity: 0, scale: 0.88, y: 40 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { duration: 0.75, ease: "easeOut" },
+  },
+};
 
-  // White overlay that covers hero with curved edge
-  const overlayHeight = useTransform(scrollYProgress, [0, 0.25], ["0%", "100%"]);
-  const overlayBorderRadius = useTransform(scrollYProgress, [0, 0.15, 0.25], ["0% 0% 50% 50%", "0% 0% 30% 30%", "0% 0% 0% 0%"]);
 
-  // Network section - appears with slight zoom-in, stays stable when footer appears
-  const networkScale = useTransform(
-    scrollYProgress,
-    [0.2, 0.3, 0.75, 0.95],
-    [0.85, 1, 1, 1]
-  );
-
-  const networkOpacity = useTransform(
-    scrollYProgress,
-    [0.15, 0.3, 0.85, 1],
-    [0, 1, 1, 0]
-  );
-
-  const networkY = useTransform(
-    scrollYProgress,
-    [0.15, 0.3],
-    [40, 0]
-  );
-
-  // Footer - buttery smooth appearance
-  const footerOpacity = useTransform(
-    scrollYProgress,
-    [0.8, 1],
-    [0, 1]
-  );
+/* =========================================================
+   HERO SECTION
+========================================================= */
+function HeroSection() {
+  const skylineFade = useScrollFade(0.05);
+  const bgFade = useScrollFade(0.05);
+  const leftFade = useScrollFade(0.1);
+  const rightFade = useScrollFade(0.1);
 
   return (
-    <>
-      {/* HERO SECTION WITH PARALLAX */}
-      <motion.section
-        className="heroSection"
-        style={{
-          y: heroY,
-          opacity: heroOpacity
-        }}
+    <section className="heroSection">
+
+      {/* SKYLINE */}
+      <motion.div
+        ref={skylineFade.ref}
+        variants={fadeInRightSlow}
+        initial="hidden"
+        animate={skylineFade.isVisible ? "visible" : "hidden"}
+        className="skylineWrapper"
       >
-
-        {/* SKYLINE - at the back */}
         <motion.div
-          variants={fadeRightSkyline}
-          initial="hidden"
-          animate="visible"
-          className="skylineWrapper"
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            style={{ width: "100%", height: "100%" }}
-          >
-            <Image
-              src="/assets/skyline.png"
-              alt="Industrial skyline"
-              fill
-              className="skyline"
-            />
-          </motion.div>
-        </motion.div>
-
-        {/* BLUE ROTATED BACKGROUND PNG */}
-        <motion.div
-          initial={{ x: -200, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="backgroundShapeWrapper"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          style={{ width: "100%", height: "100%" }}
         >
           <Image
-            src="/assets/background.png"
-            alt="Background shape"
+            src="/assets/skyline.png"
+            alt="Industrial skyline"
             fill
-            priority
-            className="backgroundShape"
+            className="skyline"
           />
         </motion.div>
+      </motion.div>
 
-        <div className="heroContainer">
+      {/* BACKGROUND SHAPE */}
+      <motion.div
+        ref={bgFade.ref}
+        variants={fadeInBg}
+        initial="hidden"
+        animate={bgFade.isVisible ? "visible" : "hidden"}
+        className="backgroundShapeWrapper"
+      >
+        <Image
+          src="/assets/background.png"
+          alt="Background shape"
+          fill
+          priority
+          className="backgroundShape"
+        />
+      </motion.div>
 
-          {/* LEFT CONTENT */}
+      <div className="heroContainer">
+
+        {/* LEFT CONTENT */}
+        <motion.div
+          ref={leftFade.ref}
+          variants={fadeInLeft}
+          initial="hidden"
+          animate={leftFade.isVisible ? "visible" : "hidden"}
+          className="leftContent"
+        >
+          <Image
+            src="/assets/logo.png"
+            alt="Ark Innovations Logo"
+            width={200}
+            height={200}
+            className="logo"
+          />
+          <h1 className="heading">
+            <span className="heading-line">Connecting Talent.</span>
+            <span className="heading-line">Empowering Business.</span>
+          </h1>
+          <p className="description">
+            Ark Innovations (Pvt) Ltd provides recruitment, manpower supply,
+            and outsourcing services that help businesses build capable,
+            reliable teams.
+          </p>
+          <div className="buttonGroup">
+            <Link href="/services">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                className="primaryButton"
+              >
+                Get Started
+                <span className="buttonArrow" />
+              </motion.button>
+            </Link>
+            <Link href="/contact">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                className="secondaryButton"
+              >
+                Contact Us
+              </motion.button>
+            </Link>
+          </div>
+        </motion.div>
+
+        {/* RIGHT WORKER */}
+        <motion.div
+          ref={rightFade.ref}
+          variants={fadeInRight}
+          initial="hidden"
+          animate={rightFade.isVisible ? "visible" : "hidden"}
+          className="workerWrapper"
+        >
           <motion.div
-            variants={fadeLeft}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="leftContent"
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            className="workerImageContainer"
           >
             <Image
-              src="/assets/logo.png"
-              alt="Ark Innovations Logo"
-              width={200}
-              height={200}
-              className="logo"
+              src="/assets/worker.png"
+              alt="Industrial Worker"
+              fill
+              className="workerImage"
+              priority
             />
-
-            <h1 className="heading">
-              <span className="heading-line">Connecting Talent.</span>
-              <span className="heading-line">Empowering Business.</span>
-            </h1>
-
-            <p className="description">
-              Ark Innovations (Pvt) Ltd provides recruitment, manpower supply,
-              and outsourcing services that help businesses build capable,
-              reliable teams.
-            </p>
-
-            <div className="buttonGroup">
-              <Link href="/services">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  className="primaryButton"
-                >
-                  Get Started
-                  <span className="buttonArrow"></span>
-                </motion.button>
-              </Link>
-
-              <Link href="/contact">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  className="secondaryButton"
-                >
-                  Contact Us
-                </motion.button>
-              </Link>
-            </div>
           </motion.div>
+        </motion.div>
 
-          {/* RIGHT WORKER */}
+      </div>
+    </section>
+  );
+}
+
+
+/* =========================================================
+   NETWORK SECTION
+========================================================= */
+function NetworkSection() {
+  const sectionFade = useScrollFade(0.15);
+  const leftFade = useScrollFade(0.2);
+  const rightFade = useScrollFade(0.2);
+
+  return (
+    <motion.section
+      ref={sectionFade.ref}
+      variants={scaleIn}
+      initial="hidden"
+      animate={sectionFade.isVisible ? "visible" : "hidden"}
+      className="networkSectionParallax"
+    >
+      <div className="networkOverlay">
+        <div className="networkContainer">
+
+          {/* LEFT TEXT */}
           <motion.div
-            variants={fadeRight}
+            ref={leftFade.ref}
+            variants={fadeInLeft}
             initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="workerWrapper"
+            animate={leftFade.isVisible ? "visible" : "hidden"}
+            className="networkLeftContent"
           >
-            <motion.div
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="workerImageContainer"
-            >
-              <Image
-                src="/assets/worker.png"
-                alt="Industrial Worker"
-                fill
-                className="workerImage"
-                priority
-              />
-            </motion.div>
+            <h2 className="networkHeading">
+              A Network of <span className="highlightText">Skilled</span> Professionals
+              <br />
+              Across Key Industries
+            </h2>
+            <p className="networkDescription">
+              From construction to IT, healthcare to logistics, Ark Innovations
+              connects businesses with a trusted network of industry-ready
+              professionals ensuring the right talent, at the right time.
+            </p>
+            <ul className="networkList">
+              <li>Pre-vetted industry professionals</li>
+              <li>Scalable workforce solutions</li>
+              <li>Multi-industry talent coverage</li>
+            </ul>
+            <Link href="/services">
+              <button className="cta-button">Learn More</button>
+            </Link>
+          </motion.div>
+
+          {/* RIGHT IMAGE */}
+          <motion.div
+            ref={rightFade.ref}
+            variants={fadeInRight}
+            initial="hidden"
+            animate={rightFade.isVisible ? "visible" : "hidden"}
+            className="networkRightContent"
+          >
+            <Image
+              src="/assets/connect.png"
+              alt="Network connection"
+              width={450}
+              height={450}
+              className="networkImage"
+            />
           </motion.div>
 
         </div>
-      </motion.section>
+      </div>
+    </motion.section>
+  );
+}
 
-      {/* WHITE OVERLAY WITH CURVED/BLOATED EDGE */}
-      <motion.div
-        className="whiteOverlay"
-        style={{
-          height: overlayHeight,
-          borderRadius: overlayBorderRadius
-        }}
-      />
 
-      {/* NETWORK SECTION WITH PARALLAX ZOOM */}
-      <motion.section
-        className="networkSectionParallax"
-        style={{
-          scale: networkScale,
-          opacity: networkOpacity,
-          y: networkY
-        }}
-      >
-        <div className="networkOverlay">
-          <div className="networkContainer">
-            <div className="networkLeftContent">
-              <h2 className="networkHeading">
-                A Network of <span className="highlightText">Skilled</span> Professionals
-                <br />
-                Across Key Industries
-              </h2>
+/* =========================================================
+   FOOTER SECTION
+========================================================= */
+function FooterSection() {
+  const footerFade = useScrollFade(0.1);
 
-              <p className="networkDescription">
-                From construction to IT, healthcare to logistics, Ark Innovations
-                connects businesses with a trusted network of industry-ready
-                professionals ensuring the right talent, at the right time.
-              </p>
+  return (
+    <motion.div
+      ref={footerFade.ref}
+      variants={fadeInUp}
+      initial="hidden"
+      animate={footerFade.isVisible ? "visible" : "hidden"}
+      className="footerWrapper"
+    >
+      <Footer />
+    </motion.div>
+  );
+}
 
-              <ul className="networkList">
-                <li>Pre-vetted industry professionals</li>
-                <li>Scalable workforce solutions</li>
-                <li>Multi-industry talent coverage</li>
-              </ul>
 
-              <Link href="/services">
-                <button className="cta-button">Learn More</button>
-              </Link>
-            </div>
-
-            <div className="networkRightContent">
-              <Image
-                src="/assets/connect.png"
-                alt="Network connection"
-                width={450}
-                height={450}
-                className="networkImage"
-              />
-            </div>
-          </div>
-        </div>
-      </motion.section>
-
-      {/* FOOTER WITH BUTTERY SMOOTH APPEARANCE */}
-      <motion.div
-        className="footerWrapper"
-        style={{
-          opacity: footerOpacity
-        }}
-      >
-        <Footer />
-      </motion.div>
+/* =========================================================
+   PAGE
+========================================================= */
+export default function HomePage() {
+  return (
+    <>
+      <HeroSection />
+      <NetworkSection />
+      <FooterSection />
     </>
   );
 }

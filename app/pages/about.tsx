@@ -1,51 +1,121 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import Link from "next/link";
 import "@/app/styles/about.css";
+
+// Custom hook for scroll-based fade in/out
+function useScrollFade(threshold = 0.2) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold }
+    );
+
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [threshold]);
+
+  return { ref, isVisible };
+}
+
+// Animation variants
+const fadeInUp: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const fadeInScale: Variants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const staggerContainer: Variants = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const cardVariant: Variants = {
+  hidden: { opacity: 0, scale: 0.85, y: 30 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
 
 export default function AboutPage() {
   const aboutRef = useRef<HTMLDivElement>(null);
   const expertiseRef = useRef<HTMLDivElement>(null);
   const approachRef = useRef<HTMLDivElement>(null);
 
-  const [activeSection, setActiveSection] = useState<string>('about');
+  const [activeSection, setActiveSection] = useState<string>("about");
+
+  // Scroll fade hooks
+  const headerFade = useScrollFade(0.1);
+  const sectionsFade = useScrollFade(0.15);
+  const whyChooseFade = useScrollFade(0.2);
+  const ctaFade = useScrollFade(0.3);
 
   useEffect(() => {
     const handleScroll = () => {
       const sections = [
-        { ref: aboutRef, id: 'about' },
-        { ref: expertiseRef, id: 'expertise' },
-        { ref: approachRef, id: 'approach' }
+        { ref: aboutRef, id: "about" },
+        { ref: expertiseRef, id: "expertise" },
+        { ref: approachRef, id: "approach" },
       ];
 
       let closest = sections[0];
       let minDistance = Infinity;
 
-      sections.forEach(section => {
+      sections.forEach((section) => {
         if (!section.ref.current) return;
         const rect = section.ref.current.getBoundingClientRect();
-        // Calculate distance from center of viewport
-        const distance = Math.abs((rect.top + rect.height / 2) - (window.innerHeight / 2));
+        const distance = Math.abs(
+          rect.top + rect.height / 2 - window.innerHeight / 2
+        );
         if (distance < minDistance) {
           minDistance = distance;
           closest = section;
         }
       });
 
-      // Only update if the closest section is actually within reasonable view range (e.g., half viewport height)
-      // This allows the cards to "hold" the state when we are far below the main sections.
       if (minDistance < window.innerHeight * 0.6) {
         setActiveSection(closest.id);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // This is the single liquid element that travels between sections
   const LiquidBackground = () => (
     <motion.div
       layoutId="liquid-bg"
@@ -54,15 +124,20 @@ export default function AboutPage() {
         type: "spring",
         stiffness: 100,
         damping: 15,
-        mass: 2
+        mass: 2,
       }}
     />
   );
 
   return (
     <div className="about-page">
-      {/* 1. The SVG Filter (Hidden but necessary) */}
-      <svg style={{ position: 'absolute', width: 0, height: 0 }}>
+      {/* Seamless Scrolling Skyline Background */}
+      <div className="skyline-background">
+        <div className="skyline-scroll"></div>
+      </div>
+
+      {/* SVG Filter for Goo Effect - CRITICAL FOR LIQUID ANIMATION */}
+      <svg style={{ position: "absolute", width: 0, height: 0 }}>
         <defs>
           <filter id="goo">
             <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blur" />
@@ -78,16 +153,33 @@ export default function AboutPage() {
       </svg>
 
       <div className="about-container">
-        <div className="about-header">
+        {/* Header with Fade In */}
+        <motion.div
+          ref={headerFade.ref}
+          initial="hidden"
+          animate={headerFade.isVisible ? "visible" : "hidden"}
+          variants={fadeInUp}
+          className="about-header"
+        >
           <h2 className="about-subtitle">About</h2>
           <h1 className="about-title">Ark Innovations Pvt (Ltd)</h1>
-        </div>
+        </motion.div>
 
-        {/* 2. Container with the Goo Filter applied */}
-        <div className="sections-wrapper goo-container">
-
+        {/* Sections with Liquid Animation + Fade In + Scale */}
+        <motion.div
+          ref={sectionsFade.ref}
+          initial="hidden"
+          animate={sectionsFade.isVisible ? "visible" : "hidden"}
+          variants={fadeInScale}
+          className="sections-wrapper"
+        >
           {/* About Section */}
-          <div ref={aboutRef} className={`about-section ${activeSection === 'about' ? 'active' : ''}`}>
+          <div
+            ref={aboutRef}
+            className={`about-section ${
+              activeSection === "about" ? "active" : ""
+            }`}
+          >
             <div className="section-content">
               <p className="about-text">
                 <strong>Ark Innovations (Pvt) Ltd</strong> is a trusted provider of
@@ -97,57 +189,97 @@ export default function AboutPage() {
               </p>
               <p className="about-text">
                 We believe that people are the foundation of every successful
-                business. With a strong commitment to quality, integrity, and client
-                satisfaction, Ark Innovations connects businesses with skilled
-                professionals while offering strategic workforce support tailored to
-                evolving industry demands.
+                business. With a strong commitment to quality, integrity, and
+                client satisfaction, Ark Innovations connects businesses with
+                skilled professionals while offering strategic workforce support
+                tailored to evolving industry demands.
               </p>
             </div>
-            {activeSection === 'about' && <LiquidBackground />}
+            {activeSection === "about" && <LiquidBackground />}
           </div>
 
           {/* Expertise Section */}
-          <div ref={expertiseRef} className={`expertise-section ${activeSection === 'expertise' ? 'active' : ''}`}>
+          <div
+            ref={expertiseRef}
+            className={`expertise-section ${
+              activeSection === "expertise" ? "active" : ""
+            }`}
+          >
             <div className="section-content">
               <h2 className="section-heading">Our Expertise</h2>
               <p className="section-text">
-                At Ark Innovations, our experienced recruitment specialists focus on
-                identifying, evaluating, and placing professionals who not only meet
-                technical requirements but also align with the values and culture of
-                our clients. We serve a diverse range of industries,
+                At Ark Innovations, our experienced recruitment specialists focus
+                on identifying, evaluating, and placing professionals who not only
+                meet technical requirements but also align with the values and
+                culture of our clients. We serve a diverse range of industries,
               </p>
               <button className="see-more-btn">see more &gt;</button>
             </div>
-            {activeSection === 'expertise' && <LiquidBackground />}
+            {activeSection === "expertise" && <LiquidBackground />}
           </div>
 
           {/* Approach Section */}
-          <div ref={approachRef} className={`approach-section ${activeSection === 'approach' ? 'active' : ''}`}>
+          <div
+            ref={approachRef}
+            className={`approach-section ${
+              activeSection === "approach" ? "active" : ""
+            }`}
+          >
             <div className="section-content">
               <h2 className="section-heading">Our Approach</h2>
               <p className="section-text">
-                Our approach is built on understanding each client's unique business
-                objectives. Through a rigorous screening and vetting process, we
-                ensure that every placement meets high professional and ethical
-                standards.
+                Our approach is built on understanding each client's unique
+                business objectives. Through a rigorous screening and vetting
+                process, we ensure that every placement meets high professional
+                and ethical standards.
               </p>
             </div>
-            {activeSection === 'approach' && <LiquidBackground />}
+            {activeSection === "approach" && <LiquidBackground />}
           </div>
+        </motion.div>
 
-
-        </div>
-
-        {/* Why Choose Section - Kept outside sections-wrapper to avoid text distortion from goo filter */}
-        <div className="why-choose-section">
+        {/* Why Choose Section with Stagger Animation + Liquid */}
+        <motion.div
+          ref={whyChooseFade.ref}
+          initial="hidden"
+          animate={whyChooseFade.isVisible ? "visible" : "hidden"}
+          variants={fadeInUp}
+          className="why-choose-section"
+        >
           <h2 className="why-choose-title">
             Why <span className="highlight">Choose</span> Ark Innovations
           </h2>
 
-          <div className="features-grid">
-            <div
-              className={`feature-card ${activeSection === 'card-0' ? 'active' : ''}`}
-              onMouseEnter={() => setActiveSection('card-0')}
+          <motion.div
+            initial="hidden"
+            animate={whyChooseFade.isVisible ? "visible" : "hidden"}
+            variants={staggerContainer}
+            className="features-grid"
+          >
+            {/* Card 1 */}
+            <motion.div
+              variants={cardVariant}
+              className={`feature-card ${
+                activeSection === "card-0" ? "active" : ""
+              }`}
+              whileHover={{ scale: 1.1, y: -8 }}
+              transition={{ type: "spring", stiffness: 1260, damping: 18 }}
+              onMouseEnter={() => setActiveSection("card-0")}
+              onMouseLeave={() => {
+                const sections = [aboutRef, expertiseRef, approachRef];
+                const ids = ["about", "expertise", "approach"];
+                sections.forEach((ref, i) => {
+                  if (ref.current) {
+                    const rect = ref.current.getBoundingClientRect();
+                    const distance = Math.abs(
+                      rect.top + rect.height / 2 - window.innerHeight / 2
+                    );
+                    if (distance < window.innerHeight * 0.6) {
+                      setActiveSection(ids[i]);
+                    }
+                  }
+                });
+              }}
             >
               <div className="card-content-wrapper">
                 <h3 className="feature-title">Industry Knowledge</h3>
@@ -157,12 +289,31 @@ export default function AboutPage() {
                   solutions.
                 </p>
               </div>
-              {activeSection === 'card-0' && <LiquidBackground />}
-            </div>
+              {activeSection === "card-0" && <LiquidBackground />}
+            </motion.div>
 
-            <div
-              className={`feature-card ${activeSection === 'card-1' ? 'active' : ''}`}
-              onMouseEnter={() => setActiveSection('card-1')}
+            {/* Card 2 */}
+            <motion.div
+              variants={cardVariant}
+              className={`feature-card ${
+                activeSection === "card-1" ? "active" : ""
+              }`}
+              onMouseEnter={() => setActiveSection("card-1")}
+              onMouseLeave={() => {
+                const sections = [aboutRef, expertiseRef, approachRef];
+                const ids = ["about", "expertise", "approach"];
+                sections.forEach((ref, i) => {
+                  if (ref.current) {
+                    const rect = ref.current.getBoundingClientRect();
+                    const distance = Math.abs(
+                      rect.top + rect.height / 2 - window.innerHeight / 2
+                    );
+                    if (distance < window.innerHeight * 0.6) {
+                      setActiveSection(ids[i]);
+                    }
+                  }
+                });
+              }}
             >
               <div className="card-content-wrapper">
                 <h3 className="feature-title">Quality Assurance</h3>
@@ -172,44 +323,88 @@ export default function AboutPage() {
                   committed to delivering excellence in their roles.
                 </p>
               </div>
-              {activeSection === 'card-1' && <LiquidBackground />}
-            </div>
+              {activeSection === "card-1" && <LiquidBackground />}
+            </motion.div>
 
-            <div
-              className={`feature-card ${activeSection === 'card-2' ? 'active' : ''}`}
-              onMouseEnter={() => setActiveSection('card-2')}
+            {/* Card 3 */}
+            <motion.div
+              variants={cardVariant}
+              className={`feature-card ${
+                activeSection === "card-2" ? "active" : ""
+              }`}
+              onMouseEnter={() => setActiveSection("card-2")}
+              onMouseLeave={() => {
+                const sections = [aboutRef, expertiseRef, approachRef];
+                const ids = ["about", "expertise", "approach"];
+                sections.forEach((ref, i) => {
+                  if (ref.current) {
+                    const rect = ref.current.getBoundingClientRect();
+                    const distance = Math.abs(
+                      rect.top + rect.height / 2 - window.innerHeight / 2
+                    );
+                    if (distance < window.innerHeight * 0.6) {
+                      setActiveSection(ids[i]);
+                    }
+                  }
+                });
+              }}
             >
               <div className="card-content-wrapper">
                 <h3 className="feature-title">Comprehensive Support</h3>
                 <p className="feature-description">
-                  From recruitment and onboarding to payroll management and ongoing
-                  workforce support, we offer a full spectrum of services to meet
-                  our clients' diverse needs.
+                  From recruitment and onboarding to payroll management and
+                  ongoing workforce support, we offer a full spectrum of services
+                  to meet our clients' diverse needs.
                 </p>
               </div>
-              {activeSection === 'card-2' && <LiquidBackground />}
-            </div>
+              {activeSection === "card-2" && <LiquidBackground />}
+            </motion.div>
 
-            <div
-              className={`feature-card ${activeSection === 'card-3' ? 'active' : ''}`}
-              onMouseEnter={() => setActiveSection('card-3')}
+            {/* Card 4 */}
+            <motion.div
+              variants={cardVariant}
+              className={`feature-card ${
+                activeSection === "card-3" ? "active" : ""
+              }`}
+              onMouseEnter={() => setActiveSection("card-3")}
+              onMouseLeave={() => {
+                const sections = [aboutRef, expertiseRef, approachRef];
+                const ids = ["about", "expertise", "approach"];
+                sections.forEach((ref, i) => {
+                  if (ref.current) {
+                    const rect = ref.current.getBoundingClientRect();
+                    const distance = Math.abs(
+                      rect.top + rect.height / 2 - window.innerHeight / 2
+                    );
+                    if (distance < window.innerHeight * 0.6) {
+                      setActiveSection(ids[i]);
+                    }
+                  }
+                });
+              }}
             >
               <div className="card-content-wrapper">
                 <h3 className="feature-title">Long-Term Partnerships</h3>
                 <p className="feature-description">
-                  We build relationships founded on trust, transparency, and mutual
-                  growth, making us a reliable partner for workforce solutions and
-                  talent management.
+                  We build relationships founded on trust, transparency, and
+                  mutual growth, making us a reliable partner for workforce
+                  solutions and talent management.
                 </p>
               </div>
-              {activeSection === 'card-3' && <LiquidBackground />}
-            </div>
-          </div>
-        </div>
+              {activeSection === "card-3" && <LiquidBackground />}
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </div>
 
-      {/* CTA Section */}
-      <div className="bottom-cta">
+      {/* CTA Section with Fade In */}
+      <motion.div
+        ref={ctaFade.ref}
+        initial="hidden"
+        animate={ctaFade.isVisible ? "visible" : "hidden"}
+        variants={fadeInUp}
+        className="bottom-cta"
+      >
         <h2 className="cta-title">Wanna join us?</h2>
         <p className="cta-description">
           Let us be your partner in building a workforce that drives your
@@ -218,7 +413,7 @@ export default function AboutPage() {
         <Link href="/contact">
           <button className="cta-button">Contact us</button>
         </Link>
-      </div>
+      </motion.div>
     </div>
   );
 }
