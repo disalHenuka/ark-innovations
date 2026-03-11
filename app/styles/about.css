@@ -19,6 +19,7 @@ body {
 
 /* --- Seamless Scrolling Skyline Background --- */
 .skyline-background {
+  pointer-events: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -86,16 +87,12 @@ body {
   margin-bottom: 0;
 }
 
-/* --- CRITICAL: Liquid/Gooey Animation Core --- */
-
-/* This container applies the "Liquid" filter to everything inside it */
+/* --- Sections --- */
 .sections-wrapper {
   display: flex;
   flex-direction: column;
   gap: 80px;
   margin-bottom: 100px;
-  /* THIS IS THE MOST IMPORTANT LINE - DO NOT REMOVE */
-  filter: url('#goo');
   position: relative;
 }
 
@@ -107,22 +104,54 @@ body {
   border: 3px solid #00B5BC;
   border-radius: 40px;
   padding: 50px;
-  transition: border-color 0.3s ease;
-  /* IMPORTANT: Must be visible so the liquid can stretch outside */
-  overflow: visible;
+  overflow: hidden;
+  transition:
+    border-color 0.3s ease,
+    transform 0.35s ease,
+    opacity 0.35s ease,
+    filter 0.35s ease;
 }
 
-/* The Shared Fluid Element - THIS CREATES THE BLUE LIQUID */
-.liquid-fill-shared {
+/* Teal overlay that fades in when active (no goo/liquid) */
+.about-box::before {
+  content: "";
   position: absolute;
-  top: -3px;
-  left: -3px;
-  right: -3px;
-  bottom: -3px;
-  /* THIS IS THE BLUE COLOR */
+  inset: 0;
   background: #00B5BC;
   z-index: 0;
-  border-radius: 38px;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+/* Active state: teal fades in, text becomes white */
+.about-box.is-active::before {
+  opacity: 1;
+}
+
+.about-box.is-active .section-content,
+.about-box.is-active .section-heading,
+.about-box.is-active .about-text,
+.about-box.is-active .section-text,
+.about-box.is-active .see-more-btn {
+  color: #FFFFFF !important;
+}
+
+/* Inactive state: fade/blur out AFTER 1.1s of being inactive */
+.about-box.is-inactive {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(12px) scale(0.98);
+  pointer-events: none;
+  transition-delay: 0.4s;
+}
+
+/* Reset delay when active */
+.about-box.is-active {
+  opacity: 1;
+  filter: none;
+  transform: none;
+  pointer-events: auto;
+  transition-delay: 0s;
 }
 
 /* Layout Positioning */
@@ -146,15 +175,6 @@ body {
   position: relative;
   z-index: 2;
   transition: color 0.4s ease;
-}
-
-/* Change text to white when the liquid is inside the box */
-.active .section-content,
-.active .section-heading,
-.active .about-text,
-.active .section-text,
-.active .see-more-btn {
-  color: #FFFFFF !important;
 }
 
 .section-heading {
@@ -222,7 +242,6 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
-  filter: url('#goo');
 }
 
 .feature-card {
@@ -238,15 +257,23 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   position: relative;
-  /* IMPORTANT: overflow visible for goo effect */
-  overflow: visible;
-  filter: url('#goo');
+  overflow: hidden;
   z-index: 1;
 }
 
-/* Adjust liquid radius for cards */
-.feature-card .liquid-fill-shared {
-  border-radius: 17px !important;
+/* Teal overlay on hover (same style as upper boxes) */
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #00B5BC;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  z-index: 0;
+}
+
+.feature-card:hover::before {
+  opacity: 1;
 }
 
 /* Ensure content is above the liquid */
@@ -256,11 +283,10 @@ body {
   transition: color 0.3s ease;
 }
 
-/* Active State for Cards (Hovered with liquid) */
-.feature-card.active .feature-title,
-.feature-card.active .feature-description {
-  color: #FFFFFF !important;
-  transition: color 0.3s ease;
+/* On hover, text turns white to match teal fill */
+.feature-card:hover .feature-title,
+.feature-card:hover .feature-description {
+  color: #FFFFFF;
 }
 
 .feature-card:hover {
@@ -289,7 +315,9 @@ body {
 /* --- Bottom CTA --- */
 .bottom-cta {
   text-align: center;
-  margin-bottom: 100px;
+  margin-bottom: 120px;
+  position: relative;
+  z-index: 5;
 }
 
 .cta-title {
@@ -311,6 +339,7 @@ body {
 }
 
 .cta-button {
+  display: inline-block;
   background: #00B5BC;
   color: #000000;
   padding: 10px 20px;
@@ -320,8 +349,11 @@ body {
   font-family: 'garet';
   border: none;
   cursor: pointer;
+  text-decoration: none;
   transition: all 0.3s ease;
   box-shadow: 0 4px 16px rgba(0, 181, 188, 0.25);
+  position: relative;
+  z-index: 10;   /* important */
 }
 
 .cta-button:hover {

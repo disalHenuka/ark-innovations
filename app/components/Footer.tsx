@@ -1,8 +1,47 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import "@/app/styles/footer.css";
 
+function useInView(threshold = 0.2) {
+  const ref = useRef<HTMLElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isVisible };
+}
+
 export default function Footer() {
+  const { ref, isVisible } = useInView(0.15);
+
   return (
-    <footer className="footer">
+    <motion.footer
+      ref={ref}
+      className="footer"
+      initial="hidden"
+      animate={isVisible ? "visible" : "hidden"}
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: { duration: 0.55, ease: "easeOut" },
+        },
+      }}
+    >
       <div className="footerContent">
         
         <div className="footerSection">
@@ -38,6 +77,6 @@ export default function Footer() {
       <div className="footerBottom">
         © {new Date().getFullYear()} Ark Innovations (Pvt) Ltd. All rights reserved.
       </div>
-    </footer>
+    </motion.footer>
   );
 }

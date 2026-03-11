@@ -83,11 +83,10 @@ const fadeInBg: Variants = {
   },
 };
 
-const scaleIn: Variants = {
-  hidden: { opacity: 0, scale: 0.88, y: 40 },
+const fadeInSection: Variants = {
+  hidden: { opacity: 0, y: 40 },
   visible: {
     opacity: 1,
-    scale: 1,
     y: 0,
     transition: { duration: 0.75, ease: "easeOut" },
   },
@@ -232,7 +231,7 @@ function NetworkSection() {
   return (
     <motion.section
       ref={sectionFade.ref}
-      variants={scaleIn}
+      variants={fadeInSection}
       initial="hidden"
       animate={sectionFade.isVisible ? "visible" : "hidden"}
       className="networkSectionParallax"

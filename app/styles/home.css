@@ -210,7 +210,8 @@ body {
   filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
 }
 
-/* NETWORK SECTION */
+/* NETWORK SECTION (Home uses .networkSectionParallax) */
+.networkSectionParallax,
 .networkSection {
   position: relative;
   min-height: 100vh;
@@ -224,6 +225,7 @@ body {
   padding: 100px 80px;
 }
 
+.networkSectionParallax::before,
 .networkSection::before {
   content: "";
   position: absolute;
@@ -425,6 +427,7 @@ body {
     width: 100%;
   }
 
+  .networkSectionParallax,
   .networkSection {
     padding: 60px 40px;
   }
@@ -462,6 +465,7 @@ body {
     font-size: 2rem;
   }
 
+  .networkSectionParallax,
   .networkSection {
     padding: 40px 24px;
   }

@@ -290,7 +290,7 @@ body {
 /* Bottom CTA Section */
 .bottom-cta {
   text-align: center;
-  padding: 40px 20px;
+  padding-top: 40px;
   margin-top: 60px;
 }
 
@@ -314,8 +314,8 @@ body {
 
 .cta-button {
   background: #00B5BC;
-  color: #FFFFFF;
-  padding: 14px 40px;
+  color: #000000;
+  padding: 10px 20px;
   border-radius: 50px;
   font-size: 1.05rem;
   font-weight: 600;
@@ -329,6 +329,7 @@ body {
 .cta-button:hover {
   background: #009DA3;
   transform: translateY(-2px);
+  color: #ffffff;
   box-shadow: 0 6px 24px rgba(0, 181, 188, 0.35);
 }
 
