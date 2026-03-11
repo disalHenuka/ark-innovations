@@ -45,9 +45,7 @@ export default function Footer() {
       <div className="footerContent">
         
         <div className="footerSection">
-          <h3>
-            Ark Innovations (Pvt) Ltd
-          </h3>
+          <h3>Ark Innovations (Pvt) Ltd</h3>
           <p>
             Providing recruitment, manpower supply, and outsourcing services
             that empower businesses to succeed through skilled and reliable
@@ -56,12 +54,23 @@ export default function Footer() {
         </div>
 
         <div className="footerSection">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/services">Services</a></li>
+            <li><a href="/industries">Industries</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div className="footerSection">
           <h3>Our Services</h3>
           <ul>
-            <li>Recruitment & Talent Acquisition</li>
-            <li>Manpower Supply</li>
-            <li>Outsourcing Services</li>
-            <li>Executive Search</li>
+            <li><a href="/services#recruitment">Recruitment & Talent Acquisition</a></li>
+            <li><a href="/services#manpower">Manpower Supply</a></li>
+            <li><a href="/services#outsourcing">Outsourcing Services</a></li>
+            <li><a href="/services#executive-search">Executive Search</a></li>
           </ul>
         </div>
 

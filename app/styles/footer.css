@@ -6,11 +6,12 @@
   background-position: center;
   background-repeat: no-repeat;
   position: relative;
+  z-index: 10;
 }
 
 .footerContent {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 2.5rem;
   font-size: 0.875rem;
   max-width: 1200px;
@@ -37,8 +38,17 @@
 
 .footerSection ul li {
   margin-bottom: 0.5rem;
-  color: #d1d5db;
   line-height: 1.6;
+}
+
+.footerSection ul li a {
+  color: #d1d5db;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footerSection ul li a:hover {
+  color: #00959e;
 }
 
 .footerSection ul li:last-child {

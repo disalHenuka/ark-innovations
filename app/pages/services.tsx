@@ -57,6 +57,7 @@ function interpolate(
 }
 
 function ServiceCard({
+  id,
   className,
   imagePosition,
   imageSrc,
@@ -64,6 +65,7 @@ function ServiceCard({
   title,
   description,
 }: {
+  id?: string;
   className: string;
   imagePosition: "left" | "right";
   imageSrc: string;
@@ -92,6 +94,7 @@ function ServiceCard({
 
   return (
     <div
+      id={id}
       ref={ref}
       className={className}
       style={{
@@ -237,6 +240,7 @@ export default function ServicesPage() {
         </motion.div>
 
         <ServiceCard
+          id="recruitment"
           className="service-section service-1"
           imagePosition="left"
           imageSrc="/assets/service_1.jpg"
@@ -246,6 +250,7 @@ export default function ServicesPage() {
         />
 
         <ServiceCard
+          id="manpower"
           className="service-section service-2"
           imagePosition="right"
           imageSrc="/assets/service_2.png"
@@ -255,6 +260,7 @@ export default function ServicesPage() {
         />
 
         <ServiceCard
+          id="outsourcing"
           className="service-section service-3"
           imagePosition="left"
           imageSrc="/assets/service_3.jpg"
@@ -264,6 +270,7 @@ export default function ServicesPage() {
         />
 
         <ServiceCard
+          id="executive-search"
           className="service-section service-2"
           imagePosition="right"
           imageSrc="/assets/service_4.jpg"
