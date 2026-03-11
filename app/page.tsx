@@ -9,9 +9,17 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const hasSeenSplash = localStorage.getItem('hasSeenSplash');
-    
-    if (!hasSeenSplash) {
+    const hasSeenSplash = sessionStorage.getItem('hasSeenSplash');
+    const isReload = window.performance
+      .getEntriesByType('navigation')
+      .map((nav) => (nav as PerformanceNavigationTiming).type)
+      .includes('reload');
+
+    if (isReload) {
+      sessionStorage.setItem('hasSeenSplash', 'true');
+      setShowSplash(false);
+      setIsLoading(false);
+    } else if (!hasSeenSplash) {
       setShowSplash(true);
       setIsLoading(false);
     } else {
@@ -21,7 +29,7 @@ export default function Page() {
   }, []);
 
   const handleSplashComplete = () => {
-    localStorage.setItem('hasSeenSplash', 'true');
+    sessionStorage.setItem('hasSeenSplash', 'true');
     setShowSplash(false);
   };
 

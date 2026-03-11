@@ -12,9 +12,13 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   useEffect(() => {
     // Only check splash screen state on the home page
     if (pathname === '/') {
-      const hasSeenSplash = localStorage.getItem('hasSeenSplash');
+      const hasSeenSplash = sessionStorage.getItem('hasSeenSplash');
+      const isReload = window.performance
+        .getEntriesByType('navigation')
+        .map((nav) => (nav as PerformanceNavigationTiming).type)
+        .includes('reload');
       
-      if (!hasSeenSplash) {
+      if (!hasSeenSplash && !isReload) {
         // First visit - hide nav and footer during splash
         setShowNavAndFooter(false);
         
@@ -25,7 +29,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
         
         return () => clearTimeout(timer);
       } else {
-        // Returning visitor - show nav and footer immediately
+        // Returning visitor or reload - show nav and footer immediately
         setShowNavAndFooter(true);
       }
     } else {
