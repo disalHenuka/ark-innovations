@@ -29,27 +29,23 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100dvh; /* iOS safe height */
+  height: 100vh;
   z-index: 0;
   overflow: hidden;
   opacity: 0.25;
-  -webkit-transform: translate3d(0,0,0); /* iOS Hardware Acceleration */
-  transform: translate3d(0,0,0);
 }
 
 .skyline-wrapper {
   display: flex;
   height: 100%;
-  width: max-content; /* Critical: Fits both images at their full aspect ratio */
-  animation: scrollSkyline 90s linear infinite; /* Adjusted speed for a smoother slow scroll */
-  -webkit-backface-visibility: hidden; /* iOS rendering fix */
-  backface-visibility: hidden;
-  will-change: transform;
+  width: max-content;
+  /* Critical: Fits both images at their full aspect ratio */
+  animation: scrollSkyline 90s linear infinite;
+  /* Adjusted speed for a smoother slow scroll */
 }
 
 .skyline-image {
   height: 100%;
-  min-height: 100dvh; /* Fallback for iOS collapse bug */
   width: auto;
   display: block;
   flex-shrink: 0;
@@ -59,8 +55,10 @@
   from {
     transform: translateX(0);
   }
+
   to {
-    transform: translateX(-50%); /* Moves by exactly one image width */
+    transform: translateX(-50%);
+    /* Moves by exactly one image width */
   }
 }
 
@@ -74,7 +72,8 @@
   backdrop-filter: blur(70px) saturate(140%) contrast(90%);
   -webkit-backdrop-filter: blur(60px);
 
-  background: rgba(255,255,255,0.08); /* extremely important */
+  background: rgba(255, 255, 255, 0.08);
+  /* extremely important */
 }
 
 /* Main Container */
@@ -261,12 +260,8 @@ html {
 
   .service-section {
     margin-bottom: 80px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 
-  /* Clear existing flex orders so we can use our own */
   .left,
   .right,
   .service-2 .left,
@@ -279,27 +274,11 @@ html {
     max-width: 100%;
   }
 
-  /* Strip the wrapper so heading, image container, and description become direct flex children */
   .service-content {
-    display: contents;
-  }
-
-  /* Enforce strict vertical stacking */
-  .service-heading {
-    order: 1;
-    margin-bottom: 20px;
     text-align: center;
   }
 
-  .service-image-container {
-    order: 2;
-    margin-bottom: 30px;
-    width: 100%;
-    margin-top: 10px;
-  }
-
   .service-description {
-    order: 3;
     text-align: center;
   }
 
