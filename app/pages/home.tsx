@@ -34,22 +34,6 @@ function useScrollFade<T extends HTMLElement = HTMLDivElement>(threshold = 0.2) 
   return { ref, isVisible };
 }
 
-/* =========================================================
-   MOBILE DETECTION HOOK
-========================================================= */
-function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 1024);
-    checkMobile(); // run once on mount
-    window.addEventListener("resize", checkMobile, { passive: true });
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  return isMobile;
-}
-
 
 /* =========================================================
    ANIMATION VARIANTS
@@ -81,24 +65,6 @@ const fadeInUpSlow: Variants = {
   },
 };
 
-const fadeInLeft: Variants = {
-  hidden: { opacity: 0, x: -60 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.8, ease: "easeOut", delay: 0.1 },
-  },
-};
-
-const fadeInRight: Variants = {
-  hidden: { opacity: 0, x: 60 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.8, ease: "easeOut", delay: 0.1 },
-  },
-};
-
 const fadeInRightSlow: Variants = {
   hidden: { opacity: 0, x: 60 },
   visible: {
@@ -116,7 +82,6 @@ const fadeInBg: Variants = {
     transition: { duration: 0.65, ease: "easeOut" },
   },
 };
-
 
 const fadeInSection: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -202,16 +167,10 @@ function FeatureCard({
    HERO SECTION
 ========================================================= */
 function HeroSection() {
-  const isMobile = useIsMobile();
   const skylineFade = useScrollFade(0.05);
   const bgFade = useScrollFade(0.05);
   const leftFade = useScrollFade(0.1);
   const rightFade = useScrollFade(0.1);
-
-  const leftVariant = isMobile ? fadeInUpDelayed : fadeInLeft;
-  const rightVariant = isMobile ? fadeInUpDelayed : fadeInRight;
-  const bgVariant = isMobile ? fadeInUpSlow : fadeInBg;
-  const slowRightVariant = isMobile ? fadeInUpSlow : fadeInRightSlow;
 
   return (
     <section className="heroSection">
@@ -219,7 +178,7 @@ function HeroSection() {
       {/* SKYLINE */}
       <motion.div
         ref={skylineFade.ref}
-        variants={slowRightVariant}
+        variants={fadeInUpSlow}
         initial="hidden"
         animate={skylineFade.isVisible ? "visible" : "hidden"}
         className="skylineWrapper"
@@ -241,7 +200,7 @@ function HeroSection() {
       {/* BACKGROUND SHAPE */}
       <motion.div
         ref={bgFade.ref}
-        variants={bgVariant}
+        variants={fadeInUpSlow}
         initial="hidden"
         animate={bgFade.isVisible ? "visible" : "hidden"}
         className="backgroundShapeWrapper"
@@ -260,7 +219,7 @@ function HeroSection() {
         {/* LEFT CONTENT */}
         <motion.div
           ref={leftFade.ref}
-          variants={leftVariant}
+          variants={fadeInUpDelayed}
           initial="hidden"
           animate={leftFade.isVisible ? "visible" : "hidden"}
           className="leftContent"
@@ -305,7 +264,7 @@ function HeroSection() {
         {/* RIGHT WORKER */}
         <motion.div
           ref={rightFade.ref}
-          variants={rightVariant}
+          variants={fadeInUpDelayed}
           initial="hidden"
           animate={rightFade.isVisible ? "visible" : "hidden"}
           className="workerWrapper"
@@ -335,16 +294,12 @@ function HeroSection() {
    NETWORK SECTION
 ========================================================= */
 function NetworkSection() {
-  const isMobile = useIsMobile();
   const sectionFade = useScrollFade(0.15);
   const headingFade = useScrollFade(0.2);
   const descFade = useScrollFade(0.2);
   const cardsFade = useScrollFade(0.25);
   const ctaFade = useScrollFade(0.2);
   const rightFade = useScrollFade(0.2);
-
-  const leftVariant = isMobile ? fadeInUpDelayed : fadeInLeft;
-  const rightVariant = isMobile ? fadeInUpDelayed : fadeInRight;
 
   return (
     <motion.section
@@ -361,7 +316,7 @@ function NetworkSection() {
           <div className="networkLeftContent">
             <motion.h2
               ref={headingFade.ref}
-              variants={leftVariant}
+              variants={fadeInUpDelayed}
               initial="hidden"
               animate={headingFade.isVisible ? "visible" : "hidden"}
               className="networkHeading"
@@ -373,7 +328,7 @@ function NetworkSection() {
 
             <motion.p
               ref={descFade.ref}
-              variants={leftVariant}
+              variants={fadeInUpDelayed}
               initial="hidden"
               animate={descFade.isVisible ? "visible" : "hidden"}
               transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
@@ -415,7 +370,7 @@ function NetworkSection() {
           {/* RIGHT IMAGE */}
           <motion.div
             ref={rightFade.ref}
-            variants={rightVariant}
+            variants={fadeInUpDelayed}
             initial="hidden"
             animate={rightFade.isVisible ? "visible" : "hidden"}
             className="networkRightContent"
