@@ -242,7 +242,7 @@ html {
 
 @media (max-width: 968px) {
   .services-container {
-    padding: 60px 40px 100px;
+    padding: 40px 16px 60px; /* heavily compressed padding */
   }
 
   .services-title {
@@ -253,8 +253,12 @@ html {
     font-size: 2.2rem;
   }
 
+  .services-header {
+    margin-bottom: 20px; /* tighter header */
+  }
+
   .service-section {
-    margin-bottom: 80px;
+    margin-bottom: 40px; /* half the space between cards */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -270,6 +274,12 @@ html {
   .intro-text {
     margin-left: 0;
     max-width: 100%;
+    padding-top: 0;
+  }
+
+  .intro-text p {
+    font-size: 0.85rem;
+    line-height: 1.6;
   }
 
   /* Strip the wrapper so heading, image container, and description become direct flex children */
@@ -277,40 +287,36 @@ html {
     display: contents;
   }
 
-  /* Enforce strict vertical stacking & left alignment */
+  /* Enforce strict vertical stacking & left alignment WITH !important to overwrite specificity */
   .service-heading {
-    order: 1;
-    margin-bottom: 20px;
+    order: 1 !important;
+    margin-bottom: 12px; /* reduced space below title */
     text-align: left;
     width: 100%;
   }
 
   .service-image-container {
-    order: 2;
-    margin-bottom: 30px;
+    order: 2 !important;
+    margin-bottom: 20px; /* reduced space below image */
     width: 100%;
-    margin-top: 10px;
+    margin-top: 8px; /* tighter */
   }
 
   .service-description {
-    order: 3;
+    order: 3 !important;
     text-align: left;
     width: 100%;
   }
 
   .services-top {
     grid-template-columns: 1fr;
-    margin-bottom: 80px;
-  }
-
-  .intro-text {
-    padding-top: 0;
+    margin-bottom: 40px; /* reduced from 80 */
   }
 }
 
 @media (max-width: 640px) {
   .services-container {
-    padding: 40px 24px 80px;
+    padding: 20px 16px 40px; /* drastically reduce space on small mobile */
   }
 
   .services-title {
@@ -326,8 +332,8 @@ html {
   }
 
   .service-image {
-    border-radius: 30px;
-    border-width: 4px;
+    border-radius: 20px; /* smaller border radius for compact scale */
+    border-width: 3px;
   }
 
   .blur-overlay {
@@ -336,7 +342,7 @@ html {
   }
 
   .service-section {
-    margin-bottom: 25vh;
+    margin-bottom: 40px; /* Fixed aggressive 25vh spacing to a tight absolute value */
   }
 }
 
@@ -359,6 +365,6 @@ html {
   }
 
   .service-section {
-    margin-bottom: 60px;
+    margin-bottom: 30px; /* highly compressed margins between items */
   }
 }
