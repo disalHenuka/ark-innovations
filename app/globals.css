@@ -126,4 +126,30 @@ body {
   }
 }
 
+/* Scroll To Top Button */
+.scroll-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  background: #05B6BC;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(5, 182, 188, 0.3);
+  z-index: 2000;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-to-top:hover {
+  background: #049ba0;
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(5, 182, 188, 0.4);
+}
+
 

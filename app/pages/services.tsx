@@ -185,7 +185,7 @@ export default function ServicesPage() {
         "colors": {
           "background": "#e8e8e8",
           "particles": [
-            "#00959e"
+            "#04cdd7"
           ]
         },
         "blending": "overlay",
@@ -214,6 +214,14 @@ export default function ServicesPage() {
       <Script src="/finisher-header.es5.min.js" strategy="afterInteractive" />
       <div className="finisher-header" />
       <div className="blur-overlay" />
+
+      {/* Seamless Scrolling Skyline Background */}
+      <div className="skyline-background">
+        <div className="skyline-wrapper">
+          <img src="/assets/1blueskyline.png" alt="" className="skyline-image" />
+          <img src="/assets/1blueskyline.png" alt="" className="skyline-image" />
+        </div>
+      </div>
 
       <div className="services-container">
         <motion.div

@@ -22,6 +22,42 @@
   isolation: isolate;
 }
 
+/* Seamless Scrolling Skyline Background */
+.skyline-background {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0.25;
+}
+
+.skyline-wrapper {
+  display: flex;
+  height: 100%;
+  width: max-content; /* Critical: Fits both images at their full aspect ratio */
+  animation: scrollSkyline 90s linear infinite; /* Adjusted speed for a smoother slow scroll */
+}
+
+.skyline-image {
+  height: 100%;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+}
+
+@keyframes scrollSkyline {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%); /* Moves by exactly one image width */
+  }
+}
+
 /* Blur Overlay on top of bubble effect */
 .blur-overlay {
   position: fixed;

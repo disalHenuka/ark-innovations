@@ -113,7 +113,7 @@ export default function ContactPage() {
         },
         colors: {
           background: "#e8e8e8",
-          particles: ["#00959e"],
+          particles: ["#04cdd7"],
         },
         blending: "overlay",
         opacity: {

@@ -1,7 +1,8 @@
 .footer {
   color: #d1d5db;
-  padding: 3rem 4rem;
-  background-image: linear-gradient(rgba(10, 31, 36, 0.85), rgba(10, 31, 36, 0.85)), url('/assets/footer.jpg?v=1');
+  padding: 2.5rem 4rem 1.5rem;
+  background-image: linear-gradient(rgba(10, 31, 36, 0.88), rgba(10, 31, 36, 0.88)),
+    url('/assets/footer.jpg?v=1');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -12,8 +13,8 @@
 .footerContent {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2.5rem;
-  font-size: 0.875rem;
+  gap: 2rem;
+  font-size: 0.8rem;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -21,13 +22,16 @@
 .footerSection h3 {
   color: white;
   font-weight: 600;
-  font-size: 1rem;
-  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .footerSection p {
   line-height: 1.6;
-  color: #d1d5db;
+  color: #9ca3af;
+  font-size: 0.775rem;
 }
 
 .footerSection ul {
@@ -37,14 +41,15 @@
 }
 
 .footerSection ul li {
-  margin-bottom: 0.5rem;
-  line-height: 1.6;
+  margin-bottom: 0.35rem;
+  line-height: 1.5;
 }
 
 .footerSection ul li a {
-  color: #d1d5db;
+  color: #9ca3af;
   text-decoration: none;
-  transition: color 0.3s ease;
+  font-size: 0.775rem;
+  transition: color 0.25s ease;
 }
 
 .footerSection ul li a:hover {
@@ -56,23 +61,61 @@
 }
 
 .footerBottom {
-  border-top: 1px solid #374151;
-  margin-top: 2.5rem;
-  padding-top: 1.5rem;
+  border-top: 1px solid #1f2937;
+  margin-top: 2rem;
+  padding-top: 1.1rem;
   text-align: center;
-  font-size: 0.75rem;
-  color: #9ca3af;
+  font-size: 0.7rem;
+  color: #6b7280;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* RESPONSIVE */
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 @media (max-width: 1024px) {
   .footer {
-    padding: 2rem 1.5rem;
+    padding: 2rem 2rem 1.25rem;
   }
 
   .footerContent {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
   }
 }
 
+@media (max-width: 640px) {
+  .footer {
+    padding: 1.75rem 1.25rem 1rem;
+  }
+
+  .footerContent {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem 1rem;
+  }
+
+  .footerSection h3 {
+    font-size: 0.78rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .footerSection p,
+  .footerSection ul li a {
+    font-size: 0.72rem;
+  }
+
+  .footerBottom {
+    font-size: 0.65rem;
+    margin-top: 1.5rem;
+    padding-top: 0.85rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .footerContent {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}

@@ -12,8 +12,8 @@ import "@/app/styles/home.css";
 /* =========================================================
    SCROLL VISIBILITY HOOK
 ========================================================= */
-function useScrollFade(threshold = 0.2) {
-  const ref = useRef<HTMLDivElement>(null);
+function useScrollFade<T extends HTMLElement = HTMLDivElement>(threshold = 0.2) {
+  const ref = useRef<T>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -47,21 +47,21 @@ const fadeInUp: Variants = {
   },
 };
 
-const fadeInLeft: Variants = {
-  hidden: { opacity: 0, x: -60 },
+const fadeInUpDelayed: Variants = {
+  hidden: { opacity: 0, y: 50 },
   visible: {
     opacity: 1,
-    x: 0,
+    y: 0,
     transition: { duration: 0.8, ease: "easeOut", delay: 0.1 },
   },
 };
 
-const fadeInRight: Variants = {
-  hidden: { opacity: 0, x: 60 },
+const fadeInUpSlow: Variants = {
+  hidden: { opacity: 0, y: 50 },
   visible: {
     opacity: 1,
-    x: 0,
-    transition: { duration: 0.8, ease: "easeOut", delay: 0.1 },
+    y: 0,
+    transition: { duration: 1.1, ease: "easeOut", delay: 0.05 },
   },
 };
 
@@ -92,6 +92,76 @@ const fadeInSection: Variants = {
   },
 };
 
+// Card stagger variants — delay increases per index
+function cardVariant(delay: number): Variants {
+  return {
+    hidden: { opacity: 0, y: 30, scale: 0.94 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.6, ease: "easeOut", delay },
+    },
+  };
+}
+
+
+/* =========================================================
+   FEATURE CARD
+========================================================= */
+const featureCards = [
+  {
+    label: "Pre-vetted Industry Professionals",
+    image: "/assets/card_vetting.png",
+    alt: "Vetted professionals",
+  },
+  {
+    label: "Scalable Workforce Solutions",
+    image: "/assets/card_scalable.jpg",
+    alt: "Scalable workforce",
+  },
+  {
+    label: "Multi-industry Talent Coverage",
+    image: "/assets/card_industries.jpg",
+    alt: "Multi-industry coverage",
+  },
+];
+
+function FeatureCard({
+  label,
+  image,
+  alt,
+  delay,
+  isVisible,
+}: {
+  label: string;
+  image: string;
+  alt: string;
+  delay: number;
+  isVisible: boolean;
+}) {
+  return (
+    <motion.div
+      variants={cardVariant(delay)}
+      initial="hidden"
+      animate={isVisible ? "visible" : "hidden"}
+      whileHover={{ scale: 1.06, y: -8 }}
+      transition={{ type: "spring", stiffness: 260, damping: 18 }}
+      className="feature-card"
+    >
+      <p className="feature-card-label">{label}</p>
+      <div className="feature-card-image-wrapper">
+        <Image
+          src={image}
+          alt={alt}
+          fill
+          className="feature-card-image"
+        />
+      </div>
+    </motion.div>
+  );
+}
+
 
 /* =========================================================
    HERO SECTION
@@ -108,7 +178,7 @@ function HeroSection() {
       {/* SKYLINE */}
       <motion.div
         ref={skylineFade.ref}
-        variants={fadeInRightSlow}
+        variants={fadeInUpSlow}
         initial="hidden"
         animate={skylineFade.isVisible ? "visible" : "hidden"}
         className="skylineWrapper"
@@ -130,7 +200,7 @@ function HeroSection() {
       {/* BACKGROUND SHAPE */}
       <motion.div
         ref={bgFade.ref}
-        variants={fadeInBg}
+        variants={fadeInUpSlow}
         initial="hidden"
         animate={bgFade.isVisible ? "visible" : "hidden"}
         className="backgroundShapeWrapper"
@@ -149,7 +219,7 @@ function HeroSection() {
         {/* LEFT CONTENT */}
         <motion.div
           ref={leftFade.ref}
-          variants={fadeInLeft}
+          variants={fadeInUpDelayed}
           initial="hidden"
           animate={leftFade.isVisible ? "visible" : "hidden"}
           className="leftContent"
@@ -194,7 +264,7 @@ function HeroSection() {
         {/* RIGHT WORKER */}
         <motion.div
           ref={rightFade.ref}
-          variants={fadeInRight}
+          variants={fadeInUpDelayed}
           initial="hidden"
           animate={rightFade.isVisible ? "visible" : "hidden"}
           className="workerWrapper"
@@ -225,7 +295,10 @@ function HeroSection() {
 ========================================================= */
 function NetworkSection() {
   const sectionFade = useScrollFade(0.15);
-  const leftFade = useScrollFade(0.2);
+  const headingFade = useScrollFade(0.2);
+  const descFade = useScrollFade(0.2);
+  const cardsFade = useScrollFade(0.25);
+  const ctaFade = useScrollFade(0.2);
   const rightFade = useScrollFade(0.2);
 
   return (
@@ -239,38 +312,65 @@ function NetworkSection() {
       <div className="networkOverlay">
         <div className="networkContainer">
 
-          {/* LEFT TEXT */}
-          <motion.div
-            ref={leftFade.ref}
-            variants={fadeInLeft}
-            initial="hidden"
-            animate={leftFade.isVisible ? "visible" : "hidden"}
-            className="networkLeftContent"
-          >
-            <h2 className="networkHeading">
-              A Network of <span className="highlightText">Skilled</span> Professionals
+          {/* LEFT TEXT + CARDS */}
+          <div className="networkLeftContent">
+            <motion.h2
+              ref={headingFade.ref}
+              variants={fadeInUpDelayed}
+              initial="hidden"
+              animate={headingFade.isVisible ? "visible" : "hidden"}
+              className="networkHeading"
+            >
+              A Network of <span className="highlightText">Skilled Professionals</span>
               <br />
               Across Key Industries
-            </h2>
-            <p className="networkDescription">
+            </motion.h2>
+
+            <motion.p
+              ref={descFade.ref}
+              variants={fadeInUpDelayed}
+              initial="hidden"
+              animate={descFade.isVisible ? "visible" : "hidden"}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+              className="networkDescription"
+            >
               From construction to IT, healthcare to logistics, Ark Innovations
               connects businesses with a trusted network of industry-ready
               professionals ensuring the right talent, at the right time.
-            </p>
-            <ul className="networkList">
-              <li>Pre-vetted industry professionals</li>
-              <li>Scalable workforce solutions</li>
-              <li>Multi-industry talent coverage</li>
-            </ul>
-            <Link href="/services">
-              <button className="cta-button">Learn More</button>
-            </Link>
-          </motion.div>
+            </motion.p>
+
+            {/* FEATURE CARDS */}
+            <div ref={cardsFade.ref} className="feature-cards-row">
+              {featureCards.map((card, i) => (
+                <FeatureCard
+                  key={card.label}
+                  label={card.label}
+                  image={card.image}
+                  alt={card.alt}
+                  delay={i * 0.12}
+                  isVisible={cardsFade.isVisible}
+                />
+              ))}
+            </div>
+
+            <motion.div
+              ref={ctaFade.ref}
+              variants={fadeInUp}
+              initial="hidden"
+              animate={ctaFade.isVisible ? "visible" : "hidden"}
+              transition={{ duration: 0.7, delay: 0.4 }}
+              className="ctaContainer"
+            >
+              <Link href="/services">
+                <button className="cta-button">Learn More</button>
+              </Link>
+            </motion.div>
+          </div>
 
           {/* RIGHT IMAGE */}
           <motion.div
             ref={rightFade.ref}
-            variants={fadeInRight}
+            variants={fadeInUpDelayed}
             initial="hidden"
             animate={rightFade.isVisible ? "visible" : "hidden"}
             className="networkRightContent"

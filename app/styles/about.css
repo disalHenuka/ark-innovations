@@ -30,17 +30,18 @@ body {
   opacity: 0.25;
 }
 
-.skyline-scroll {
-  position: absolute;
-  top: 0;
-  left: 0;
+.skyline-wrapper {
+  display: flex;
   height: 100%;
-  width: 200%;
-  background-image: url('/assets/blueskyline.png');
-  background-repeat: repeat-x;
-  background-size: auto 100%;
-  background-position: 0 0;
-  animation: scrollSkyline 60s linear infinite;
+  width: max-content;
+  animation: scrollSkyline 90s linear infinite;
+}
+
+.skyline-image {
+  height: 100%;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
 }
 
 @keyframes scrollSkyline {
@@ -354,7 +355,8 @@ body {
   transition: all 0.3s ease;
   box-shadow: 0 4px 16px rgba(0, 181, 188, 0.25);
   position: relative;
-  z-index: 10;   /* important */
+  z-index: 10;
+  /* important */
 }
 
 .cta-button:hover {
