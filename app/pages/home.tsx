@@ -34,6 +34,24 @@ function useScrollFade<T extends HTMLElement = HTMLDivElement>(threshold = 0.2) 
   return { ref, isVisible };
 }
 
+/* =========================================================
+   RESPONSIVE MOBILE HOOK
+========================================================= */
+function useIsMobile(breakpoint = 1024) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    if (media.matches !== isMobile) {
+      setIsMobile(media.matches);
+    }
+    const listener = () => setIsMobile(media.matches);
+    media.addEventListener("change", listener);
+    return () => media.removeEventListener("change", listener);
+  }, [isMobile, breakpoint]);
+
+  return isMobile;
+}
 
 /* =========================================================
    ANIMATION VARIANTS
@@ -62,6 +80,24 @@ const fadeInUpSlow: Variants = {
     opacity: 1,
     y: 0,
     transition: { duration: 1.1, ease: "easeOut", delay: 0.05 },
+  },
+};
+
+const fadeInLeft: Variants = {
+  hidden: { opacity: 0, x: -60 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.8, ease: "easeOut", delay: 0.1 },
+  },
+};
+
+const fadeInRight: Variants = {
+  hidden: { opacity: 0, x: 60 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.8, ease: "easeOut", delay: 0.1 },
   },
 };
 
@@ -167,6 +203,7 @@ function FeatureCard({
    HERO SECTION
 ========================================================= */
 function HeroSection() {
+  const isMobile = useIsMobile();
   const skylineFade = useScrollFade(0.05);
   const bgFade = useScrollFade(0.05);
   const leftFade = useScrollFade(0.1);
@@ -178,7 +215,7 @@ function HeroSection() {
       {/* SKYLINE */}
       <motion.div
         ref={skylineFade.ref}
-        variants={fadeInUpSlow}
+        variants={isMobile ? fadeInUpSlow : fadeInRightSlow}
         initial="hidden"
         animate={skylineFade.isVisible ? "visible" : "hidden"}
         className="skylineWrapper"
@@ -200,7 +237,7 @@ function HeroSection() {
       {/* BACKGROUND SHAPE */}
       <motion.div
         ref={bgFade.ref}
-        variants={fadeInUpSlow}
+        variants={isMobile ? fadeInUpSlow : fadeInBg}
         initial="hidden"
         animate={bgFade.isVisible ? "visible" : "hidden"}
         className="backgroundShapeWrapper"
@@ -219,7 +256,7 @@ function HeroSection() {
         {/* LEFT CONTENT */}
         <motion.div
           ref={leftFade.ref}
-          variants={fadeInUpDelayed}
+          variants={isMobile ? fadeInUpDelayed : fadeInLeft}
           initial="hidden"
           animate={leftFade.isVisible ? "visible" : "hidden"}
           className="leftContent"
@@ -264,7 +301,7 @@ function HeroSection() {
         {/* RIGHT WORKER */}
         <motion.div
           ref={rightFade.ref}
-          variants={fadeInUpDelayed}
+          variants={isMobile ? fadeInUpDelayed : fadeInRight}
           initial="hidden"
           animate={rightFade.isVisible ? "visible" : "hidden"}
           className="workerWrapper"
