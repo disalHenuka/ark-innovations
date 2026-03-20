@@ -405,7 +405,10 @@ body {
   .industries-grid {
     grid-template-columns: 1fr;
     gap: 30px;
-    max-width: 350px;
+    width: 70vw; /* 70% of the viewport/screen width */
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .industry-card {

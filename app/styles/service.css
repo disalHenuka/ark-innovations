@@ -316,7 +316,7 @@ html {
 
 @media (max-width: 640px) {
   .services-container {
-    padding: 20px 44px 20px; /* Restored left/right padding */
+    padding: 20px 35px 20px; /* Restored left/right padding */
   }
 
   .services-title {

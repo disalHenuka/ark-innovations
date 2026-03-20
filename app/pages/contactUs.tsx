@@ -190,7 +190,7 @@ export default function ContactPage() {
             <h3>Phone Numbers</h3>
             <p>
               <strong>Mobile:</strong> +94 77 60 10 600<br />
-              <strong>Mobile:</strong> +94 70 43 36 626
+              <strong>Mobile:</strong> +94 78 13 34 513
             </p>
             <p className="availability-text">
               Mon - Fri: 8:00 AM - 6:00 PM

@@ -31,6 +31,23 @@ function useScrollFade(threshold = 0.2) {
   return { ref, isVisible };
 }
 
+// Custom hook to detect mobile viewport specifically for conditional dynamic animations
+function useIsMobile(breakpoint = 1024) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    if (media.matches !== isMobile) {
+      setIsMobile(media.matches);
+    }
+    const listener = () => setIsMobile(media.matches);
+    media.addEventListener("change", listener);
+    return () => media.removeEventListener("change", listener);
+  }, [isMobile, breakpoint]);
+
+  return isMobile;
+}
+
 // Animation variants
 const fadeInUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -71,17 +88,22 @@ const cardVariant: Variants = {
 };
 
 export default function AboutPage() {
-  const aboutRef = useRef<HTMLDivElement>(null);
-  const expertiseRef = useRef<HTMLDivElement>(null);
-  const approachRef = useRef<HTMLDivElement>(null);
-
+  const isMobile = useIsMobile();
   const [activeSection, setActiveSection] = useState<string>("about");
   const [enableInactiveExit, setEnableInactiveExit] = useState(false);
 
   // Scroll fade hooks
   const headerFade = useScrollFade(0.1);
-  const sectionsFade = useScrollFade(0.15);
+  const aboutPanelFade = useScrollFade(0.15);
+  const expertisePanelFade = useScrollFade(0.15);
+  const approachPanelFade = useScrollFade(0.15);
+
   const whyChooseFade = useScrollFade(0.2);
+  const card1Fade = useScrollFade(0.15);
+  const card2Fade = useScrollFade(0.15);
+  const card3Fade = useScrollFade(0.15);
+  const card4Fade = useScrollFade(0.15);
+
   const ctaFade = useScrollFade(0.3);
 
   useEffect(() => {
@@ -91,9 +113,9 @@ export default function AboutPage() {
 
     const handleScroll = () => {
       const sections = [
-        { ref: aboutRef, id: "about" },
-        { ref: expertiseRef, id: "expertise" },
-        { ref: approachRef, id: "approach" },
+        { ref: aboutPanelFade.ref, id: "about" },
+        { ref: expertisePanelFade.ref, id: "expertise" },
+        { ref: approachPanelFade.ref, id: "approach" },
       ];
 
       let closest = sections[0];
@@ -144,17 +166,14 @@ export default function AboutPage() {
           <h1 className="about-title">Ark Innovations Pvt (Ltd)</h1>
         </motion.div>
 
-        {/* Sections with Liquid Animation + Fade In + Scale */}
-        <motion.div
-          ref={sectionsFade.ref}
-          initial="hidden"
-          animate={sectionsFade.isVisible ? "visible" : "hidden"}
-          variants={fadeInScale}
-          className="sections-wrapper"
-        >
+        {/* Sections separated out to individual Fade In Hooks */}
+        <div className="sections-wrapper">
           {/* About Section */}
-          <div
-            ref={aboutRef}
+          <motion.div
+            ref={aboutPanelFade.ref}
+            initial="hidden"
+            animate={aboutPanelFade.isVisible ? "visible" : "hidden"}
+            variants={fadeInUp}
             className={`about-box about-section ${activeSection === "about"
                 ? "is-active"
                 : enableInactiveExit
@@ -177,11 +196,14 @@ export default function AboutPage() {
                 tailored to evolving industry demands.
               </p>
             </div>
-          </div>
+          </motion.div>
 
           {/* Expertise Section */}
-          <div
-            ref={expertiseRef}
+          <motion.div
+            ref={expertisePanelFade.ref}
+            initial="hidden"
+            animate={expertisePanelFade.isVisible ? "visible" : "hidden"}
+            variants={fadeInUp}
             className={`about-box expertise-section ${activeSection === "expertise"
                 ? "is-active"
                 : enableInactiveExit
@@ -199,11 +221,14 @@ export default function AboutPage() {
               </p>
               <button className="see-more-btn">see more &gt;</button>
             </div>
-          </div>
+          </motion.div>
 
           {/* Approach Section */}
-          <div
-            ref={approachRef}
+          <motion.div
+            ref={approachPanelFade.ref}
+            initial="hidden"
+            animate={approachPanelFade.isVisible ? "visible" : "hidden"}
+            variants={fadeInUp}
             className={`about-box approach-section ${activeSection === "approach"
                 ? "is-active"
                 : enableInactiveExit
@@ -220,10 +245,10 @@ export default function AboutPage() {
                 and ethical standards.
               </p>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
 
-        {/* Why Choose Section with Stagger Animation + Liquid */}
+        {/* Why Choose Section with Desktop-only Stagger Animation */}
         <motion.div
           ref={whyChooseFade.ref}
           initial="hidden"
@@ -238,12 +263,15 @@ export default function AboutPage() {
           <motion.div
             initial="hidden"
             animate={whyChooseFade.isVisible ? "visible" : "hidden"}
-            variants={staggerContainer}
+            variants={isMobile ? undefined : staggerContainer}
             className="features-grid"
           >
             {/* Card 1 */}
             <motion.div
+              ref={card1Fade.ref}
               variants={cardVariant}
+              initial={isMobile ? "hidden" : undefined}
+              animate={isMobile ? (card1Fade.isVisible ? "visible" : "hidden") : undefined}
               className="feature-card"
               whileHover={{ scale: 1.08, y: -8 }}
               transition={{ type: "spring", stiffness: 700, damping: 22 }}
@@ -260,7 +288,10 @@ export default function AboutPage() {
 
             {/* Card 2 */}
             <motion.div
+              ref={card2Fade.ref}
               variants={cardVariant}
+              initial={isMobile ? "hidden" : undefined}
+              animate={isMobile ? (card2Fade.isVisible ? "visible" : "hidden") : undefined}
               className="feature-card"
               whileHover={{ scale: 1.08, y: -8 }}
               transition={{ type: "spring", stiffness: 700, damping: 22 }}
@@ -277,7 +308,10 @@ export default function AboutPage() {
 
             {/* Card 3 */}
             <motion.div
+              ref={card3Fade.ref}
               variants={cardVariant}
+              initial={isMobile ? "hidden" : undefined}
+              animate={isMobile ? (card3Fade.isVisible ? "visible" : "hidden") : undefined}
               className="feature-card"
               whileHover={{ scale: 1.08, y: -8 }}
               transition={{ type: "spring", stiffness: 700, damping: 22 }}
@@ -294,7 +328,10 @@ export default function AboutPage() {
 
             {/* Card 4 */}
             <motion.div
+              ref={card4Fade.ref}
               variants={cardVariant}
+              initial={isMobile ? "hidden" : undefined}
+              animate={isMobile ? (card4Fade.isVisible ? "visible" : "hidden") : undefined}
               className="feature-card"
               whileHover={{ scale: 1.08, y: -8 }}
               transition={{ type: "spring", stiffness: 700, damping: 22 }}
