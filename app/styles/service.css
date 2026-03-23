@@ -242,7 +242,7 @@ html {
 
 @media (max-width: 968px) {
   .services-container {
-    padding: 40px 40px 60px; /* Restored left/right padding */
+    padding: 40px 40px 60px;
   }
 
   .services-title {
@@ -254,14 +254,15 @@ html {
   }
 
   .services-header {
-    margin-bottom: 20px; /* tighter header */
+    margin-bottom: 20px;
   }
 
   .service-section {
-    margin-bottom: 40px; /* half the space between cards */
+    margin-bottom: 30px;        /* CHANGED: was 40px */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    gap: 0;
   }
 
   .left,
@@ -282,41 +283,42 @@ html {
     line-height: 1.6;
   }
 
-  /* Strip the wrapper so heading, image container, and description become direct flex children */
   .service-content {
     display: contents;
+    padding: 0;
   }
 
-  /* Enforce strict vertical stacking & left alignment WITH !important to overwrite specificity */
   .service-heading {
     order: 1 !important;
-    margin-bottom: 12px; /* reduced space below title */
+    margin-bottom: 4px;         /* CHANGED: was 6px */
     text-align: left;
     width: 100%;
   }
 
   .service-image-container {
     order: 2 !important;
-    margin-bottom: 20px; /* reduced space below image */
+    margin-bottom: 8px;         /* CHANGED: was 10px */
     width: 100%;
-    margin-top: 8px; /* tighter */
+    margin-top: 2px;            /* CHANGED: was 4px */
   }
 
   .service-description {
     order: 3 !important;
-    text-align: left;
+    text-align: justify;
     width: 100%;
+    font-size: 0.95rem;         /* CHANGED: was unset — now slightly larger */
+    line-height: 1.7;           /* ADDED: comfortable reading */
   }
 
   .services-top {
     grid-template-columns: 1fr;
-    margin-bottom: 40px; /* reduced from 80 */
+    margin-bottom: 40px;
   }
 }
 
 @media (max-width: 640px) {
   .services-container {
-    padding: 20px 35px 20px; /* Restored left/right padding */
+    padding: 20px 35px 20px;
   }
 
   .services-title {
@@ -332,7 +334,7 @@ html {
   }
 
   .service-image {
-    border-radius: 20px; /* smaller border radius for compact scale */
+    border-radius: 20px;
     border-width: 3px;
   }
 
@@ -342,7 +344,13 @@ html {
   }
 
   .service-section {
-    margin-bottom: 40px; /* Fixed aggressive 25vh spacing to a tight absolute value */
+    margin-bottom: 22px;        /* CHANGED: was 30px */
+    gap: 0;
+  }
+
+  .service-description {
+    font-size: 0.92rem;         /* CHANGED: was unset, slightly smaller than 968 */
+    line-height: 1.65;          /* ADDED */
   }
 }
 
@@ -361,10 +369,17 @@ html {
 
   .intro-text p,
   .service-description {
-    font-size: 0.85rem; /* Shrinking description font significantly */
+    font-size: 0.88rem;         /* CHANGED: was 0.85rem — slightly larger */
+    text-align: justify;
+    line-height: 1.65;          /* ADDED */
   }
 
   .service-section {
-    margin-bottom: 30px; /* highly compressed margins between items */
+    margin-bottom: 16px;        /* CHANGED: was 22px */
+    gap: 0;                     /* ADDED */
+  }
+
+  .service-image-container {
+    margin-bottom: 6px;         /* ADDED: tighter gap after image */
   }
 }

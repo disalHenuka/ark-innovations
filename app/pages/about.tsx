@@ -219,8 +219,10 @@ export default function AboutPage() {
                 meet technical requirements but also align with the values and
                 culture of our clients. We serve a diverse range of industries,
               </p>
-              <button className="see-more-btn">see more &gt;</button>
-            </div>
+              <Link href="/industries">
+                <button className="see-more-btn font-bold">see more &gt;</button>
+              </Link>
+                          </div>
           </motion.div>
 
           {/* Approach Section */}

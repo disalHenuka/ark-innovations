@@ -312,9 +312,7 @@ body {
   .map-form-section {
     gap: 50px;
   }
-}
-
-@media (max-width: 968px) {
+}@media (max-width: 968px) {
   .contact-container {
     padding: 60px 40px;
   }
@@ -329,26 +327,43 @@ body {
 
   .contact-cards-horizontal {
     grid-template-columns: 1fr;
-    gap: 25px;
+    gap: 12px;                    /* CHANGED: was 25px */
+  }
+
+  .contact-info-card {
+    padding: 20px 24px;
+    min-height: unset;
+    max-width: 70%;          
+    margin: 0 auto;           
+    width: 100%;
   }
 
   .map-form-section {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 24px;                    /* CHANGED: was 40px */
   }
 
   .map-container {
-    height: 450px;
+    height: 320px;                /* CHANGED: was 450px */
   }
 
   .contact-form-container {
-    padding: 40px 35px;
+    padding: 24px 28px;           /* CHANGED: was 40px 35px */
+  }
+
+  .contact-form-container h2 {
+    font-size: 1.5rem;            /* ADDED: shrink form heading */
+    margin-bottom: 16px;          /* ADDED */
+  }
+
+  .form-group {
+    margin-bottom: 12px;          /* ADDED: tighter field spacing */
   }
 }
 
 @media (max-width: 640px) {
   .contact-container {
-    padding: 40px 24px;
+    padding: 40px 20px;           /* CHANGED: was 40px 24px */
   }
 
   .contact-subtitle {
@@ -364,34 +379,51 @@ body {
   }
 
   .contact-cards-horizontal {
-    gap: 20px;
+    gap: 10px;                    /* CHANGED: was 20px */
   }
 
   .contact-info-card {
-    padding: 32px 24px;
-    min-height: 240px;
+    padding: 16px 20px;           /* CHANGED: was 32px 24px */
+    min-height: unset;            /* CHANGED: was 240px */
   }
 
   .card-icon {
-    font-size: 2.5rem;
+    font-size: 2rem;              /* CHANGED: was 2.5rem */
+    margin-bottom: 8px;           /* ADDED */
   }
 
   .contact-info-card h3 {
-    font-size: 1.15rem;
+    font-size: 1rem;              /* CHANGED: was 1.15rem */
+    margin-bottom: 4px;           /* ADDED */
   }
 
   .contact-info-card p {
-    font-size: 0.95rem;
+    font-size: 0.88rem;           /* CHANGED: was 0.95rem */
+    line-height: 1.5;             /* ADDED */
   }
 
   .map-container {
-    height: 350px;
+    height: 260px;                /* CHANGED: was 350px */
     border-width: 4px;
   }
 
   .contact-form-container {
-    padding: 30px 24px;
+    padding: 20px 18px;           /* CHANGED: was 30px 24px */
     border-width: 4px;
+  }
+
+  .contact-form-container h2 {
+    font-size: 1.35rem;           /* ADDED */
+    margin-bottom: 12px;          /* ADDED */
+  }
+
+  .form-group {
+    margin-bottom: 10px;          /* ADDED: tighter fields */
+  }
+
+  .form-group label {
+    font-size: 0.82rem;           /* ADDED */
+    margin-bottom: 4px;           /* ADDED */
   }
 }
 
@@ -404,26 +436,43 @@ body {
     font-size: 1.5rem;
   }
 
+  .contact-info-card {
+    padding: 14px 16px;           /* ADDED: most compact */
+  }
+
+  .card-icon {
+    font-size: 1.75rem;           /* ADDED */
+  }
+
   .contact-form-container h2 {
-    font-size: 1.5rem;
+    font-size: 1.25rem;           /* CHANGED: was 1.5rem */
+    margin-bottom: 10px;          /* ADDED */
+  }
+
+  .form-group {
+    margin-bottom: 8px;           /* ADDED */
   }
 
   .form-group label {
-    font-size: 0.9rem;
+    font-size: 0.8rem;            /* CHANGED: was 0.9rem */
   }
 
   .form-group input,
   .form-group textarea {
-    padding: 12px 16px;
-    font-size: 0.95rem;
+    padding: 9px 14px;            /* CHANGED: was 12px 16px */
+    font-size: 0.88rem;           /* CHANGED: was 0.95rem */
+  }
+
+  .form-group textarea {
+    min-height: 90px;             /* ADDED: stops textarea being oversized */
   }
 
   .submit-btn {
-    padding: 12px 28px;
-    font-size: 1rem;
+    padding: 10px 24px;           /* CHANGED: was 12px 28px */
+    font-size: 0.95rem;           /* CHANGED: was 1rem */
   }
 
   .map-container {
-    height: 300px;
+    height: 220px;                /* CHANGED: was 300px */
   }
 }

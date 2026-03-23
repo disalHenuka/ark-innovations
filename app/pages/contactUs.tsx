@@ -86,8 +86,11 @@ export default function ContactPage() {
 
   // Scroll fade hooks (bidirectional)
   const headerFade = useScrollFade(0.1);
-  const cardsFade = useScrollFade(0.15);
-  const mapFormFade = useScrollFade(0.2);
+  const mapFade = useScrollFade(0.2);      
+  const formFade = useScrollFade(0.2);     
+  const card1Fade = useScrollFade(0.3);
+  const card2Fade = useScrollFade(0.3);
+  const card3Fade = useScrollFade(0.3);
 
   useEffect(() => {
     if (!window.FinisherHeader) return;
@@ -168,14 +171,15 @@ export default function ContactPage() {
         </motion.div>
 
         {/* Contact Cards - Horizontal Row with Stagger */}
-        <motion.div
-          ref={cardsFade.ref}
-          initial="hidden"
-          animate={cardsFade.isVisible ? "visible" : "hidden"}
-          variants={staggerContainer}
-          className="contact-cards-horizontal"
-        >
-          <motion.div variants={cardVariant} className="contact-info-card">
+        <div className="contact-cards-horizontal">
+
+          <motion.div
+            ref={card1Fade.ref}
+            initial="hidden"
+            animate={card1Fade.isVisible ? "visible" : "hidden"}
+            variants={cardVariant}
+            className="contact-info-card"
+          >
             <div className="card-icon">📍</div>
             <h3>Office Address</h3>
             <p>
@@ -185,41 +189,51 @@ export default function ContactPage() {
             </p>
           </motion.div>
 
-          <motion.div variants={cardVariant} className="contact-info-card">
+          <motion.div
+            ref={card2Fade.ref}
+            initial="hidden"
+            animate={card2Fade.isVisible ? "visible" : "hidden"}
+            variants={cardVariant}
+            className="contact-info-card"
+          >
             <div className="card-icon">📞</div>
             <h3>Phone Numbers</h3>
             <p>
               <strong>Mobile:</strong> +94 77 60 10 600<br />
               <strong>Mobile:</strong> +94 78 13 34 513
             </p>
-            <p className="availability-text">
-              Mon - Fri: 8:00 AM - 6:00 PM
-            </p>
+            <p className="availability-text">Mon - Fri: 8:00 AM - 6:00 PM</p>
           </motion.div>
 
-          <motion.div variants={cardVariant} className="contact-info-card">
+          <motion.div
+            ref={card3Fade.ref}
+            initial="hidden"
+            animate={card3Fade.isVisible ? "visible" : "hidden"}
+            variants={cardVariant}
+            className="contact-info-card"
+          >
             <div className="card-icon">✉️</div>
             <h3>Email Us</h3>
             <p>
               <strong>General Inquiries:</strong><br />
               <a href="mailto:arkinnovations@gmail.com">arkinnovations@gmail.com</a>
             </p>
-            <p className="availability-text">
-              Response within 24 hours
-            </p>
+            <p className="availability-text">Response within 24 hours</p>
           </motion.div>
-        </motion.div>
+
+        </div>
 
         {/* Map and Form Section - Side by Side */}
-        <motion.div
-          ref={mapFormFade.ref}
-          initial="hidden"
-          animate={mapFormFade.isVisible ? "visible" : "hidden"}
-          variants={fadeInScale}
-          className="map-form-section"
-        >
-          {/* Google Map */}
-          <div className="map-container">
+        <div className="map-form-section">
+
+          {/* Google Map — own fade */}
+          <motion.div
+            ref={mapFade.ref}
+            initial="hidden"
+            animate={mapFade.isVisible ? "visible" : "hidden"}
+            variants={fadeInScale}
+            className="map-container"
+          >
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.0817582842894!2d79.90728!3d6.74167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNDQnMzAuMCJOIDc5wrA1NCcyNi4yIkU!5e0!3m2!1sen!2slk!4v1234567890"
               width="100%"
@@ -230,59 +244,37 @@ export default function ContactPage() {
               referrerPolicy="no-referrer-when-downgrade"
               title="Ark Innovations Office Location"
             ></iframe>
-          </div>
+          </motion.div>
 
-          {/* Contact Form */}
-          <div className="contact-form-container">
+          {/* Contact Form — own fade */}
+          <motion.div
+            ref={formFade.ref}
+            initial="hidden"
+            animate={formFade.isVisible ? "visible" : "hidden"}
+            variants={fadeInScale}
+            className="contact-form-container"
+          >
             <h2>Send Us a Message</h2>
             <form id="contact-form" action={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="name">Full Name *</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="John Doe"
-                  required
-                />
+                <input type="text" id="name" name="name" placeholder="John Doe" required />
               </div>
-
               <div className="form-group">
                 <label htmlFor="email">Email Address *</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="john@example.com"
-                  required
-                />
+                <input type="email" id="email" name="email" placeholder="john@example.com" required />
               </div>
-
               <div className="form-group">
                 <label htmlFor="subject">Subject</label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  placeholder="How can we help?"
-                />
+                <input type="text" id="subject" name="subject" placeholder="How can we help?" />
               </div>
-
               <div className="form-group">
                 <label htmlFor="message">Message *</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  placeholder="Your message here..."
-                  required
-                ></textarea>
+                <textarea id="message" name="message" rows={5} placeholder="Your message here..." required></textarea>
               </div>
-
               <button type="submit" className="submit-btn" disabled={isPending}>
                 {isPending ? "Sending..." : "Send Message"}
               </button>
-
               {status?.success && (
                 <div className="form-status success">{status.success}</div>
               )}
@@ -290,8 +282,8 @@ export default function ContactPage() {
                 <div className="form-status error">{status.error}</div>
               )}
             </form>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </div>
   );
