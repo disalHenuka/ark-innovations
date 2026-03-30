@@ -152,6 +152,7 @@
   position: relative;
   will-change: transform, opacity, filter;
   transform-origin: center center;
+  scroll-margin-top: 250px; /* Offset to prevent fixed navbar from hiding the section text */
 }
 
 .service-section:last-child {
