@@ -152,7 +152,7 @@
   position: relative;
   will-change: transform, opacity, filter;
   transform-origin: center center;
-  scroll-margin-top: 250px; /* Offset to prevent fixed navbar from hiding the section text */
+  scroll-margin-top: 225px; /* Offset to prevent fixed navbar from hiding the section text */
 }
 
 .service-section:last-child {
@@ -162,6 +162,8 @@
 /* Service Images with Hover Effects */
 .service-image-container {
   position: relative;
+  margin-top: 100px;
+  margin-bottom: 100px; 
   width: 100%;
   height: auto;
   will-change: transform;
