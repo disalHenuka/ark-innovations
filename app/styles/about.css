@@ -247,7 +247,7 @@ body {
 
 .feature-card {
   background: #FFFFFF;
-  border-radius: 55px;
+  border-radius: 65px;
   padding: 30px 24px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;

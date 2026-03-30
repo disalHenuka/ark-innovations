@@ -72,6 +72,59 @@
   margin-right: auto;
 }
 
+.footerAddressLink {
+  color: #9ca3af;
+  font-size: 0.775rem;
+  line-height: 1.6;
+  text-decoration: none;
+  transition: color 0.25s ease;
+  display: inline-block;
+}
+
+.footerAddressLink:hover {
+  color: #00959e;
+}
+
+
+/* =========================================================
+   SOCIAL ICONS
+========================================================= */
+.footerSocials {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.85rem;
+  align-items: center;
+}
+
+.socialIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.85);
+  background: transparent;
+  transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease, transform 0.2s ease;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.socialIcon svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+.socialIcon:hover {
+  border-color: #00b5bc;
+  color: #00b5bc;
+  background: rgba(0, 181, 188, 0.1);
+  transform: translateY(-2px);
+}
+
+
 /* =========================================================
    RESPONSIVE
 ========================================================= */
@@ -110,6 +163,16 @@
     font-size: 0.65rem;
     margin-top: 1.5rem;
     padding-top: 0.85rem;
+  }
+
+  .socialIcon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .socialIcon svg {
+    width: 14px;
+    height: 14px;
   }
 }
 
