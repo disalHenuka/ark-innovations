@@ -86,11 +86,6 @@ function ServiceCard({
     [0, 0.18, 0.5, 0.82, 1],
     [0, 0.45, 1, 0.45, 0]
   );
-  const blurPx = interpolate(
-    progress,
-    [0, 0.18, 0.5, 0.82, 1],
-    [10, 3, 0, 3, 10]
-  );
 
   return (
     <div
@@ -100,8 +95,7 @@ function ServiceCard({
       style={{
         transform: `scale(${scale})`,
         opacity,
-        filter: `blur(${blurPx}px)`,
-        willChange: "transform, opacity, filter",
+        willChange: "transform, opacity",
         transformOrigin: "center center",
       }}
     >
@@ -109,6 +103,7 @@ function ServiceCard({
         <>
           <motion.div
             whileHover={{ scale: 1.05, rotate: 1 }}
+            whileTap={{ scale: 1.05, rotate: 1 }}
             transition={{ duration: 0.3 }}
             className="service-image-container left"
           >
@@ -133,6 +128,7 @@ function ServiceCard({
           </div>
           <motion.div
             whileHover={{ scale: 1.05, rotate: -1 }}
+            whileTap={{ scale: 1.05, rotate: -1 }}
             transition={{ duration: 0.3 }}
             className="service-image-container left"
           >
@@ -151,70 +147,104 @@ function ServiceCard({
 }
 
 export default function ServicesPage() {
-  const finisherRef = useRef<any>(null);
   const pathname = usePathname();
 
+  // Auto-scroll logic
   useEffect(() => {
-    if (!window.FinisherHeader) return;
+    const locations = ["recruitment", "manpower", "outsourcing", "executive-search"];
+    let timeoutId: NodeJS.Timeout;
+    let scrollStopTimer: NodeJS.Timeout;
 
-    const el = document.querySelector(".finisher-header") as HTMLElement | null;
-    if (!el) return;
+    const executeScroll = () => {
+      let closestIdx = -1;
+      let minDistance = Infinity;
 
-    const existingCanvas = el.querySelector("canvas");
-    if (existingCanvas) existingCanvas.remove();
+      const viewportOffset = window.innerHeight / 3;
+      
+      for (let i = 0; i < locations.length; i++) {
+        const el = document.getElementById(locations[i]);
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        const distance = Math.abs(rect.top - viewportOffset);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestIdx = i;
+        }
+      }
 
-    try {
-      finisherRef.current = new window.FinisherHeader({
-        className: "finisher-header",
-        count: 6,
-        "size": {
-          "min": 527,
-          "max": 900,
-          "pulse": 0
-        },
-        "speed": {
-          "x": {
-            "min": 0.8,
-            "max": 1.8
-          },
-          "y": {
-            "min": 0.7,
-            "max": 2
+      // ONLY override if mechanically hugging the top pixel edge of the document
+      if (window.scrollY <= 50) {
+        closestIdx = -1;
+      }
+
+      let nextIndex;
+      if (closestIdx === -1) {
+        nextIndex = 0;
+      } else if (closestIdx >= locations.length - 1) {
+        nextIndex = -1;
+      } else {
+        nextIndex = closestIdx + 1;
+      }
+
+      if (nextIndex === -1) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        const targetId = locations[nextIndex];
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+      
+      // Determine timer purely based on the presence of the exact head component
+      const topEl = document.querySelector('.services-top');
+      let isTopVisible = window.scrollY <= 50;
+      if (topEl) {
+        const rect = topEl.getBoundingClientRect();
+        if (rect.bottom > 100) {
+          isTopVisible = true;
+        }
+      }
+
+      const delay = isTopVisible ? 3000 : 6000;
+      timeoutId = setTimeout(executeScroll, delay);
+    };
+
+    // The single robust interaction tracker
+    const handleScroll = () => {
+      clearTimeout(timeoutId);
+      clearTimeout(scrollStopTimer);
+
+      scrollStopTimer = setTimeout(() => {
+        // Find if header is explicitly on screen
+        const topEl = document.querySelector('.services-top');
+        let isTopVisible = window.scrollY <= 50;
+        if (topEl) {
+          const rect = topEl.getBoundingClientRect();
+          if (rect.bottom > 100) {
+            isTopVisible = true;
           }
-        },
-        "colors": {
-          "background": "#e8e8e8",
-          "particles": [
-            "#04cdd7"
-          ]
-        },
-        "blending": "overlay",
-        "opacity": {
-          "center": 0.6,
-          "edge": 0
-        },
-        "skew": 0,
-        "shapes": [
-          "c"
-        ]
-      });
-    } catch (err) {
-      console.error("FinisherHeader init failed:", err);
-    }
+        }
+
+        const delay = isTopVisible ? 3000 : 6000;
+        timeoutId = setTimeout(executeScroll, delay);
+      }, 150);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Kick-start loop on mount
+    timeoutId = setTimeout(executeScroll, 3000);
 
     return () => {
-      const canvas = el.querySelector("canvas");
-      if (canvas) canvas.remove();
-      finisherRef.current = null;
+      clearTimeout(timeoutId);
+      clearTimeout(scrollStopTimer);
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, [pathname]);
+  }, []);
 
   return (
     <div className="services-page">
-      <Script src="/finisher-header.es5.min.js" strategy="afterInteractive" />
-      <div className="finisher-header" />
-      <div className="blur-overlay" />
-
       {/* Seamless Scrolling Skyline Background */}
       <div className="skyline-background">
         <div className="skyline-wrapper">

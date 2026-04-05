@@ -276,6 +276,7 @@ export default function AboutPage() {
               animate={isMobile ? (card1Fade.isVisible ? "visible" : "hidden") : undefined}
               className="feature-card"
               whileHover={{ scale: 1.08, y: -8 }}
+              whileTap={{ scale: 1.08, y: -8 }}
               transition={{ type: "spring", stiffness: 700, damping: 22 }}
             >
               <div className="card-content-wrapper">
@@ -296,6 +297,7 @@ export default function AboutPage() {
               animate={isMobile ? (card2Fade.isVisible ? "visible" : "hidden") : undefined}
               className="feature-card"
               whileHover={{ scale: 1.08, y: -8 }}
+              whileTap={{ scale: 1.08, y: -8 }}
               transition={{ type: "spring", stiffness: 700, damping: 22 }}
             >
               <div className="card-content-wrapper">
@@ -316,6 +318,7 @@ export default function AboutPage() {
               animate={isMobile ? (card3Fade.isVisible ? "visible" : "hidden") : undefined}
               className="feature-card"
               whileHover={{ scale: 1.08, y: -8 }}
+              whileTap={{ scale: 1.08, y: -8 }}
               transition={{ type: "spring", stiffness: 700, damping: 22 }}
             >
               <div className="card-content-wrapper">
@@ -336,6 +339,7 @@ export default function AboutPage() {
               animate={isMobile ? (card4Fade.isVisible ? "visible" : "hidden") : undefined}
               className="feature-card"
               whileHover={{ scale: 1.08, y: -8 }}
+              whileTap={{ scale: 1.08, y: -8 }}
               transition={{ type: "spring", stiffness: 700, damping: 22 }}
             >
               <div className="card-content-wrapper">

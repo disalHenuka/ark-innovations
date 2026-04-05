@@ -40,6 +40,9 @@
   height: 100%;
   width: max-content; /* Critical: Fits both images at their full aspect ratio */
   animation: scrollSkyline 90s linear infinite; /* Adjusted speed for a smoother slow scroll */
+  -webkit-transform: translateZ(0); /* iOS Hardware Acceleration */
+  transform: translate3d(0, 0, 0); /* Force GPU acceleration */
+  will-change: transform;
 }
 
 .skyline-image {
@@ -146,9 +149,9 @@
 .service-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  gap: 20px; /* Adjust this value to change side-by-side gap width */
   align-items: center;
-  margin-bottom: 120px;
+  margin-bottom: 10px; /* Adjust this value to change vertical gap between cards */
   position: relative;
   will-change: transform, opacity, filter;
   transform-origin: center center;
@@ -156,14 +159,14 @@
 }
 
 .service-section:last-child {
-  margin-bottom: 60px;
+  margin-bottom: 0px;
 }
 
 /* Service Images with Hover Effects */
 .service-image-container {
   position: relative;
-  margin-top: 100px;
-  margin-bottom: 100px; 
+  margin-top: 30px; /* Adjust this value to reduce top spacing inside the card */
+  margin-bottom: 30px; /* Adjust this value to reduce bottom spacing inside the card */
   width: 100%;
   height: auto;
   will-change: transform;
@@ -238,14 +241,14 @@ html {
   }
 
   .service-section {
-    gap: 60px;
-    margin-bottom: 100px;
+    gap: 30px;
+    margin-bottom: 20px;
   }
 }
 
 @media (max-width: 968px) {
   .services-container {
-    padding: 40px 40px 60px;
+    padding: 40px 40px 100px;
   }
 
   .services-title {
@@ -261,7 +264,7 @@ html {
   }
 
   .service-section {
-    margin-bottom: 30px;        /* CHANGED: was 40px */
+    margin-bottom: 15px;        /* CHANGED: was 40px */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -321,7 +324,7 @@ html {
 
 @media (max-width: 640px) {
   .services-container {
-    padding: 20px 35px 20px;
+    padding: 20px 35px 100px;
   }
 
   .services-title {
@@ -347,7 +350,7 @@ html {
   }
 
   .service-section {
-    margin-bottom: 22px;        /* CHANGED: was 30px */
+    margin-bottom: 10px;        /* CHANGED: was 30px */
     gap: 0;
   }
 
@@ -378,7 +381,7 @@ html {
   }
 
   .service-section {
-    margin-bottom: 16px;        /* CHANGED: was 22px */
+    margin-bottom: 5px;        /* CHANGED: was 22px */
     gap: 0;                     /* ADDED */
   }
 

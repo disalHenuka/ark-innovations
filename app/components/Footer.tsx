@@ -84,7 +84,7 @@ export default function Footer() {
           333, Pushpasiri, Thanthirimulla, Panadura
         </a>
           <p style={{ marginTop: "0.5rem" }}>+94 77 60 10 600</p>
-          <p>+94 70 43 36 626</p>
+          <p>+94 78 13 34 513</p>
 
           {/* ── Social Icons ── */}
           <div className="footerSocials">
